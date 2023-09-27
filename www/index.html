@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>finance.codin.xyz</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0 auto;
+      padding: 5vw;
+    }
+    h1 {
+      text-transform: uppercase;
+      font-size: 5rem;
+    }
+    h1 strong {
+      background-color: rgb(38, 120, 187);
+      color: white;
+      display: inline-block;
+    }
+    h1 span {
+      background-color: rgb(220, 220, 8);
+      color: white;
+    }
+    h1 span span {
+      display: inline-block;
+      background-color: rgb(83, 205, 74);
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <h1>
+      <span>&nbsp;</span><strong>#</strong><a href="#" style="color: inherit; text-decoration: none"><strong>finance</strong><span>.<span>codin.x</span>yz</span></a>
+    </h1>
+    <p>&nbsp;📊<i> Open source crypto-finance API</i></p>
+  </section>
+  <h2>Endpoints</h2>
+  <ul>
+    <!--
+    <li>
+      <h3>
+        <a href="/api/index.json">https://finance.codin.xyz/api/index.json</a>
+      </h3>
+      <pre>
+
+      </pre>
+    </li>
+    -->
+    <li>
+      <h3>
+        <a href="/api/btc-usd/1d.jsonl">https://finance.codin.xyz/api/btc-usd/1d[.jsonl|.json|.xml|.csv|.tsv|.txt|.tgz]</a>
+      </h3>
+      <h4>Download</h4>
+      <p>.tgz contains all formats</p>
+      <p>.xml can also be viewed from web (through xslt)</p>
+      <h4>Data Stucture</h4>
+      <p>const [date, open, high, low, close, volume] = Item</p>
+      <pre>
+<b># json</b>
+[
+  ["2015-07-20T00:00:00.000Z",277.98,280,277.37,280,782.88341959],
+  ["2015-07-21T00:00:00.000Z",279.96,281.27,276.85,277.32,4943.55943437],
+  ...
+]
+
+<b># jsonl</b>
+["2015-07-20T00:00:00.000Z",277.98,280,277.37,280,782.88341959],
+["2015-07-21T00:00:00.000Z",279.96,281.27,276.85,277.32,4943.55943437],
+...
+
+<b># csv</b>
+"date","open","high","low","close","volume"
+"2015-07-20T00:00:00.000Z","277.98","280","277.37","280","782.88341959"
+"2015-07-21T00:00:00.000Z","279.96","281.27","276.85","277.32","4943.55943437"
+...
+      </pre>
+    </li>
+  </ul>
+</body>
+</html>
