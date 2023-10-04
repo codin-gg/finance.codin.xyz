@@ -17,6 +17,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_COINBASE_API_KEY: ${{ secrets.COINBASE_API_KEY }}
+      NPM_CONFIG_COINBASE_API_SECRET: ${{ secrets.COINBASE_API_SECRET }}
+      NPM_CONFIG_COINBASE_API_BASE: ${{ vars.COINBASE_API_BASE }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
