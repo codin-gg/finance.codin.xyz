@@ -33,7 +33,6 @@ for (const filePath of await readCacheBy(name => name.startsWith('coinbase,'))) 
   const stream = createWriteStream(filePath, { flags: 'a' })
   for await (const [date, open, high, low, close, volume] of fetchCandlesSince(nextUncachedCandleDate, coinbaseIdFor(filePath), coinbaseIntervalFor(filePath))) {
     stream.write(JSON.stringify([date, open, high, low, close, volume]) + EOL)
-    break
   }
   stream.close()
 }
