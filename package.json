@@ -10,7 +10,7 @@
   "scripts": {
     "sync-coinbase": "node --experimental-modules bin/sync-coinbase.mjs",
     "build-coinbase": "node --experimental-modules bin/build-coinbase.mjs",
-    "test": "node --test --watch --experimental-modules test"
+    "test": "node --test --experimental-modules test"
   },
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "license": "MIT",
