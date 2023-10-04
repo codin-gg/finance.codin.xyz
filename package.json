@@ -4,9 +4,13 @@
   "private": true,
   "description": "This is a simple crypto project that tracks prices of crypto currencies over time and makes them available. - [ ] Bitcoin EUR USDC USDT CUSDC SAI",
   "main": "www/index.html",
+  "config": {
+    "data": "data"
+  },
   "scripts": {
-    "test": "node --test --experimental-modules test",
-    "test:watch": "node --test --watch --experimental-modules test"
+    "sync-coinbase": "node --experimental-modules bin/sync-coinbase.mjs",
+    "build-coinbase": "node --experimental-modules bin/build-coinbase.mjs",
+    "test": "node --test --watch --experimental-modules test"
   },
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "license": "MIT",
