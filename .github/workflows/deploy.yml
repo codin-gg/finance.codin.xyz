@@ -3,10 +3,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
-  # workflow_run:
-  #   workflows: [Tests]
-  #   types: [completed]
-  #   branches: [main]
+  workflow_run:
+    workflows: [Tests]
+    types: [completed]
+    branches: [main]
 permissions:
   contents: read
   pages: write
@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,6 +26,7 @@ jobs:
           node-version-file: .node-version
       - run: npm ci
       - uses: actions/cache/restore@v3
+        if: ${{ github.event_name != 'workflow_dispatch' }}
         id: cache
         with:
           path: data
