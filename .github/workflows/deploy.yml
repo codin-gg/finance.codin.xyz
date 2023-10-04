@@ -17,10 +17,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      NPM_CONFIG_COINBASE_API_KEY: ${{ secrets.COINBASE_API_KEY }}
-      NPM_CONFIG_COINBASE_API_SECRET: ${{ secrets.COINBASE_API_SECRET }}
-      NPM_CONFIG_COINBASE_API_BASE: ${{ vars.COINBASE_API_BASE }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -34,6 +30,10 @@ jobs:
           path: data
           key: ${{ runner.os }}-finance-data
       - run: npm run sync-coinbase
+        env:
+          npm_config_coinbase_api_key: ${{ secrets.coinbase_api_key }}
+          npm_config_coinbase_api_secret: ${{ secrets.coinbase_api_secret }}
+          npm_config_coinbase_api_base: ${{ vars.coinbase_api_base }}
       - uses: actions/cache/save@v3
         with:
           path: data
