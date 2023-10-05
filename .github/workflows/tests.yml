@@ -1,17 +1,22 @@
 name: Tests
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+on: [workflow_dispatch, pull_request, push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NODE_V8_COVERAGE: coverage
     steps:
-      - uses: actions/checkout@v3 # https://github.com/actions/checkout
-      - uses: actions/setup-node@v3 # https://github.com/actions/setup-node
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           check-latest: true
           node-version-file: '.node-version'
           cache: 'npm'
       - run: npm ci
       - run: npm test
+      - run: npx c8 report -r lcov
+      - uses: coverallsapp/github-action@v2
+      - uses: actions/upload-artifact@v3
+        with:
+          path: ${{ env.NODE_V8_COVERAGE }}/lcov-report
+
