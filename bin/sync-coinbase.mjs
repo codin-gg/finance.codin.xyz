@@ -27,7 +27,7 @@ for (const filePath of await readCacheBy(name => name.startsWith('coinbase,'))) 
   console.log('↳ coinbaseInterval:', coinbaseIntervalFor(filePath))
 
   const nextUncachedCandleDate = new Date(lastCachedCandleDate.getTime() + INTERVALS.get(intervalFor(filePath)))
-  const numberOfCandlesToSync = daysBetween(nextUncachedCandleDate, new Date(new Date().setTime(new Date().getTime() - INTERVALS.get(intervalFor(filePath)))))
+  const numberOfCandlesToSync = daysBetween(nextUncachedCandleDate, new Date(Date.now() - INTERVALS.get(intervalFor(filePath))))
   console.log('↳ numberOfCandlesToSync:', numberOfCandlesToSync)
   if (numberOfCandlesToSync === 0) continue
   const stream = createWriteStream(filePath, { flags: 'a' })
