@@ -31,7 +31,7 @@ jobs:
           node-version-file: .node-version
       - run: npm ci
       - uses: actions/cache/restore@v3
-        id: cache-
+        id: cache
         with:
           path: data
           key: jsonl-data-${{ steps.date.outputs.date }}
