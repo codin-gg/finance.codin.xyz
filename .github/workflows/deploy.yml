@@ -30,19 +30,16 @@ jobs:
           check-latest: true
           node-version-file: .node-version
       - run: npm ci
-      - run: ls -lsah data
       - uses: actions/cache/restore@v3
         id: cache-
         with:
           path: data
           key: jsonl-data-${{ steps.date.outputs.date }}
-      - run: ls -lsah data
       - run: npm run sync-coinbase
         env:
           npm_config_coinbase_api_key: ${{ secrets.coinbase_api_key }}
           npm_config_coinbase_api_secret: ${{ secrets.coinbase_api_secret }}
           npm_config_coinbase_api_base: ${{ vars.coinbase_api_base }}
-      - run: ls -lsah data
       - uses: actions/cache/save@v3
         with:
           path: data
