@@ -5,3 +5,4 @@ node_modules
 www/api/*/
 !www/api/*.*
 www/api/.DS_Store
+test/*.json
