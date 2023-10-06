@@ -10,8 +10,7 @@ import { EOL } from 'node:os'
 import { readCache, readLastCachedJsonLineOf } from '../lib/cache.mjs'
 
 import { fetchCandlesSince, coinbaseIntervalFor, coinbaseIdFor } from '../lib/coinbase.mjs'
-import { dateReviver } from '../lib/json.mjs'
-import { utcDate, daysBetween, INTERVALS } from '../lib/date.mjs'
+import { utcDate, daysBetween, jsonDateReviver, INTERVALS } from '../lib/date.mjs'
 
 console.log('[bin/sync-coinbase] toLocaleTimeString', new Date().toLocaleTimeString())
 console.log('[bin/sync-coinbase] toJSON', new Date().toJSON())
@@ -21,7 +20,7 @@ console.log('[bin/sync-coinbase] utcDate(new Date())', utcDate(new Date()))
 
 for (const filePath of await readCache(name => name.startsWith('coinbase,'))) {
   console.log('[bin/sync-coinbase] Loading:%s', filePath)
-  const [lastCachedCandleDate] = await readLastCachedJsonLineOf(createReadStream(filePath), dateReviver)
+  const [lastCachedCandleDate] = await readLastCachedJsonLineOf(createReadStream(filePath), jsonDateReviver)
   console.log('↳ lastCachedCandleDate:', lastCachedCandleDate)
   console.log('↳ interval:', intervalFor(filePath))
   console.log('↳ coinbaseId:', coinbaseIdFor(filePath))
@@ -38,7 +37,7 @@ for (const filePath of await readCache(name => name.startsWith('coinbase,'))) {
   stream.close()
 }
 
-function intervalFor(file) {
-  const [,,interval] = file.replace('.', ',').split(',')
+function intervalFor (file) {
+  const [,, interval] = file.replace('.', ',').split(',')
   return interval
 }

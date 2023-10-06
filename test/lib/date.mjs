@@ -2,7 +2,6 @@ import { describe, it } from 'node:test'
 import { ok, strictEqual } from 'node:assert'
 
 import { INTERVALS, parseInterval, daysBetween, jsonDateReviver, utcDate } from '../../lib/date.mjs'
-import { dateReviver } from '../../lib/json.mjs'
 
 describe('lib/date', () => {
   describe('.INTERVALS', () => {
@@ -63,12 +62,24 @@ describe('lib/date', () => {
       strictEqual(parseInterval('2'), 120000)
     })
   })
-  describe('.jsonDateReviver (deprecated)', () => {
-    it('is duplicate of ~/lib/json.mjs:dateReviver', () => {
-      strictEqual(jsonDateReviver.toString(), dateReviver.toString().replace(/^function\s+\w+\s*\(/, `function ${jsonDateReviver.name} (`))
+  describe('.jsonDateReviver', () => {
+    it('is callable', () => {
+      strictEqual(typeof jsonDateReviver, 'function')
     })
-    it.skip('is not callable anymore', () => {
-      strictEqual(typeof jsonDateReviver, 'undefined')
+    it('returns a date when given a string', () => {
+      ok(jsonDateReviver(null, '2023-09-26T10:30:00.000Z') instanceof Date)
+    })
+    it('returns the value when given a non-string', () => {
+      strictEqual(jsonDateReviver(null, 42), 42) // Non-string input
+    })
+    it('returns the value when given a string that does not match the iso8601 regex', () => {
+      strictEqual(jsonDateReviver(null, '2023/09/26 10:30:00'), '2023/09/26 10:30:00') // Non-matching format
+    })
+    it('returns a date when given a string that matches the iso8601 regex', () => {
+      ok(jsonDateReviver(null, '2023-09-26T10:30:00.000Z') instanceof Date)
+    })
+    it('returns a date when given a string that matches the iso8601 regex and a custom regex', () => {
+      ok(jsonDateReviver(null, '2023/09/26 10:30:00', /^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}$/) instanceof Date) // Custom format regex
     })
   })
   describe('.utcDate', () => {
