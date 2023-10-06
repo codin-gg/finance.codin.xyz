@@ -7,7 +7,7 @@
 import { createReadStream, createWriteStream } from 'node:fs'
 import { EOL } from 'node:os'
 
-import { readCache, readLastCachedJsonLineOf } from '../lib/cache.mjs'
+import { readCache, byExchange, readLastCachedJsonLineOf } from '../lib/cache.mjs'
 
 import { fetchCandlesSince, coinbaseIntervalFor, coinbaseIdFor } from '../lib/coinbase.mjs'
 import { utcDate, daysBetween, jsonDateReviver, INTERVALS } from '../lib/date.mjs'
@@ -18,7 +18,7 @@ console.log('[bin/sync-coinbase] toISOString', new Date().toISOString())
 console.log('[bin/sync-coinbase] getTimezoneOffset', new Date().getTimezoneOffset())
 console.log('[bin/sync-coinbase] utcDate(new Date())', utcDate(new Date()))
 
-for (const filePath of await readCache(name => name.startsWith('coinbase,'))) {
+for (const filePath of await readCache(byExchange('coinbase'))) {
   console.log('[bin/sync-coinbase] Loading:%s', filePath)
   const [lastCachedCandleDate] = await readLastCachedJsonLineOf(createReadStream(filePath), jsonDateReviver)
   console.log('↳ lastCachedCandleDate:', lastCachedCandleDate)

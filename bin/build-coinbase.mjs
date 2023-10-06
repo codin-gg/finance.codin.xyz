@@ -3,13 +3,13 @@
 import { createReadStream, createWriteStream } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 
-import { readCache } from '../lib/cache.mjs'
+import { readCache, byExchange } from '../lib/cache.mjs'
 
 import { fromJsonl as jsonlToCsv } from '../lib/stream/csv.mjs'
 import { fromJsonl as jsonlToJson } from '../lib/stream/json.mjs'
 import { fromJsonl as jsonlToXml } from '../lib/stream/xml.mjs'
 
-for (const file of await readCache(name => name.startsWith('coinbase,'))) {
+for (const file of await readCache(byExchange('coinbase'))) {
   console.log('► bin/build-coinbase loading:%s', file)
   const [directory, exchange, id, interval, format] = file.split(/[/,.]/)
   await mkdir(`www/api/${id}`, { recursive: true })
