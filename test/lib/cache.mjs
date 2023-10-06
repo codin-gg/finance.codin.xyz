@@ -1,23 +1,35 @@
 import { describe, it } from 'node:test'
-import { ok, strictEqual } from 'assert'
+import { equal } from 'assert/strict'
+import { byExchange, readCache, readLastCachedLineOf, readLastCachedJsonLineOf} from '../../lib/cache.mjs'
 
-describe('lib/cache', () => {})
-
-// async function readCoinbaseCache(startsWith = 'coinbase,', directory = 'cache', { readdir } = fs, { join } = path) {
-//   return ( await readdir(directory) )
-//     .filter(file => file.startsWith(startsWith))
-//     .map(file => {
-//       const [exchange, id, rest] = file.split(',')
-//       const [interval, extension] = rest.split('.')
-//       return { exchange, id, interval, extension, path: join(directory, file) }
-//     })
-// }
-
-
-
-// describe('lib/cache', () => {
-//   it('returns an array of objects', async () => {
-//     const cache = await readCoinbaseCache('coinbase,', '../cache')
-//     console.log(cache)
-//   })
-// })
+describe('lib/cache', () => {
+  describe('.byExchange', () => {
+    it('returns a function', () => {
+      equal(typeof byExchange, 'function')
+    })
+    it('returns a predicate matching the provided exchange name', () => {
+      const matchesIfStartsWithFooComma = byExchange('foo')
+      equal(matchesIfStartsWithFooComma('foo,bar'), true)
+    })
+  })
+  describe('.readCache', () => {
+    it('returns a function', () => {
+      equal(typeof readCache, 'function')
+    })
+    it('returns a function that returns an array of strings', async () => {
+      const cache = await readCache()
+      equal(Array.isArray(cache), true)
+      equal(typeof cache[0], 'string')
+    })
+  })
+  describe('.readLastCachedLineOf', () => {
+    it('returns a function', () => {
+      equal(typeof readLastCachedLineOf, 'function')
+    })
+  })
+  describe('.readLastCachedJsonLineOf', () => {
+    it('returns a function', () => {
+      equal(typeof readLastCachedJsonLineOf, 'function')
+    })
+  })
+})

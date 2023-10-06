@@ -5,7 +5,7 @@
   "description": "This is a simple crypto project that tracks prices of crypto currencies over time and makes them available. - [ ] Bitcoin EUR USDC USDT CUSDC SAI",
   "main": "www/index.html",
   "config": {
-    "data": "data"
+    "cache": "data"
   },
   "scripts": {
     "sync-coinbase": "node --experimental-modules bin/sync-coinbase.mjs",
@@ -15,7 +15,14 @@
   },
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "license": "MIT",
+  "standard": {
+    "ignore": [
+      "data",
+      "www"
+    ]
+  },
   "devDependencies": {
-    "serve": "^14.2.1"
+    "serve": "^14.2.1",
+    "standard": "^17.1.0"
   }
 }
