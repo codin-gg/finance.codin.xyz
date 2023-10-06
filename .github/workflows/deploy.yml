@@ -27,6 +27,7 @@ jobs:
         with:
           check-latest: true
           node-version-file: .node-version
+          cache: npm
       - run: npm ci
       - uses: actions/cache/restore@v3
         id: cache

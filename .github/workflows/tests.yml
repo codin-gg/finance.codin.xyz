@@ -10,13 +10,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           check-latest: true
-          node-version-file: '.node-version'
-          cache: 'npm'
+          node-version-file: .node-version
+          cache: npm
       - run: npm ci
       - run: npm test
       - run: npx c8 report -r lcov
       - uses: coverallsapp/github-action@v2
       - uses: actions/upload-artifact@v3
         with:
+          name: code-coverage
           path: ${{ env.NODE_V8_COVERAGE }}/lcov-report
 
