@@ -11,18 +11,13 @@ import { fromJsonl as jsonlToXml } from '../lib/stream/xml.mjs'
 
 for (const file of await readCache(name => name.startsWith('coinbase,'))) {
   console.log('► bin/build-coinbase loading:%s', file)
-  const [directory, exchange , id, interval, format] = file.split(/[/,.]/)
+  const [directory, exchange, id, interval, format] = file.split(/[/,.]/)
   await mkdir(`www/api/${id}`, { recursive: true })
   console.log('↳ exchange:', directory)
   console.log('↳ exchange:', exchange)
   console.log('↳ id:', id)
   console.log('↳ interval:', interval)
   console.log('↳ source:', format)
-  // jsonl
-  console.time(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.jsonl elapsed`)
-  createReadStream(file)
-    .pipe(createWriteStream(`www/api/${id}/${interval}.jsonl`))
-    .on('close', () => console.timeEnd(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.jsonl elapsed`))
   // csv
   console.time(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.csv elapsed`)
   jsonlToCsv(createReadStream(file))
