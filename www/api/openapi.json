@@ -62,7 +62,6 @@
             "type": "string",
             "enum": [
               "csv",
-              "xml",
               "json"
             ]
           },
@@ -132,7 +131,6 @@
             "type": "string",
             "enum": [
               "csv",
-              "xml",
               "json"
             ]
           },
@@ -211,7 +209,6 @@
             "type": "string",
             "enum": [
               "csv",
-              "xml",
               "json"
             ]
           },
@@ -263,7 +260,6 @@
             "type": "string",
             "enum": [
               "csv",
-              "xml",
               "json"
             ]
           },
@@ -280,7 +276,6 @@
             "description": "Successful response",
             "content": {
               "application/json": {},
-              "application/xml": {},
               "text/csv": {
                 "schema": {
                   "type": "array",

@@ -2,12 +2,9 @@
 
 import { createReadStream, createWriteStream } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
-
 import { readCache, byExchange } from '../lib/cache.mjs'
-
 import { fromJsonl as jsonlToCsv } from '../lib/stream/csv.mjs'
 import { fromJsonl as jsonlToJson } from '../lib/stream/json.mjs'
-import { fromJsonl as jsonlToXml } from '../lib/stream/xml.mjs'
 
 for (const file of await readCache(byExchange('coinbase'))) {
   console.log('► bin/build-coinbase loading:%s', file)
@@ -28,9 +25,4 @@ for (const file of await readCache(byExchange('coinbase'))) {
   jsonlToJson(createReadStream(file))
     .pipe(createWriteStream(`www/api/${id}/${interval}.json`))
     .on('close', () => console.timeEnd(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.json elapsed`))
-  // xml
-  console.time(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.xml elapsed`)
-  jsonlToXml(createReadStream(file))
-    .pipe(createWriteStream(`www/api/${id}/${interval}.xml`))
-    .on('close', () => console.timeEnd(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.xml elapsed`))
 }
