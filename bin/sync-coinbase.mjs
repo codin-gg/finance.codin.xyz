@@ -18,20 +18,20 @@ console.log('[bin/sync-coinbase] toISOString', new Date().toISOString())
 console.log('[bin/sync-coinbase] getTimezoneOffset', new Date().getTimezoneOffset())
 console.log('[bin/sync-coinbase] utcDate(new Date())', utcDate(new Date()))
 
-for (const filePath of await readCache(byExchange('coinbase'))) {
-  console.log('[bin/sync-coinbase] Loading:%s', filePath)
-  const [lastCachedCandleDate] = await readLastCachedJsonLineOf(createReadStream(filePath), jsonDateReviver)
+for (const file of await readCache(byExchange('coinbase'))) {
+  console.log('[bin/sync-coinbase] Loading:%s', file)
+  const [lastCachedCandleDate] = await readLastCachedJsonLineOf(createReadStream(file), jsonDateReviver)
   console.log('↳ lastCachedCandleDate:', lastCachedCandleDate)
-  console.log('↳ interval:', intervalFor(filePath))
-  console.log('↳ coinbaseId:', coinbaseIdFor(filePath))
-  console.log('↳ coinbaseInterval:', coinbaseIntervalFor(filePath))
-  const nextUncachedCandleDate = new Date(lastCachedCandleDate.getTime() + INTERVALS.get(intervalFor(filePath)))
-  const lastCachableCandleDate = new Date(utcDate(new Date()).getTime() - INTERVALS.get(intervalFor(filePath)))
+  console.log('↳ interval:', intervalFor(file))
+  console.log('↳ coinbaseId:', coinbaseIdFor(file))
+  console.log('↳ coinbaseInterval:', coinbaseIntervalFor(file))
+  const nextUncachedCandleDate = new Date(lastCachedCandleDate.getTime() + INTERVALS.get(intervalFor(file)))
+  const lastCachableCandleDate = new Date(utcDate(new Date()).getTime() - INTERVALS.get(intervalFor(file)))
   const numberOfCandlesToSync = daysBetween(nextUncachedCandleDate, lastCachableCandleDate)
   console.log('↳ numberOfCandlesToSync:', numberOfCandlesToSync)
   if (numberOfCandlesToSync === 0) continue
-  const stream = createWriteStream(filePath, { flags: 'a' }) // append
-  for await (const [date, open, high, low, close, volume] of fetchCandlesSince(nextUncachedCandleDate, coinbaseIdFor(filePath), coinbaseIntervalFor(filePath))) {
+  const stream = createWriteStream(file, { flags: 'a' }) // append
+  for await (const [date, open, high, low, close, volume] of fetchCandlesSince(nextUncachedCandleDate, coinbaseIdFor(file), coinbaseIntervalFor(file))) {
     stream.write(JSON.stringify([date, open, high, low, close, volume]) + EOL)
   }
   stream.close()
