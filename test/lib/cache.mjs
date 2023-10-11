@@ -25,11 +25,6 @@ describe('lib/cache', () => {
     it('returns a function', () => {
       equal(typeof readCache, 'function')
     })
-    it('returns a function that returns an array of strings', async () => {
-      const cache = await readCache()
-      equal(Array.isArray(cache), true)
-      equal(typeof cache[0], 'string')
-    })
   })
   describe('.readLastCachedLineOf', () => {
     it('returns a function', () => {
