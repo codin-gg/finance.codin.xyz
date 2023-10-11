@@ -6,5 +6,9 @@ node_modules
 www/api/*/
 !www/api/*.*
 www/api/.DS_Store
+www/api/latest.csv
+www/api/latest.json
 www/sitemap.xml
+
+
 
