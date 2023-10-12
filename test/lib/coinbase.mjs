@@ -1,6 +1,5 @@
 import { describe, it, mock } from 'node:test'
 import { ok, equal, deepEqual } from 'node:assert/strict'
-import { deepEqual } from 'node:assert'
 import { isGeneratorFunction } from 'node:util/types'
 import { withJsonBody, fetchCoinbase, fetchCandlesSince, coinbaseIntervalFor, coinbaseIdFor, toUnixTimestamp, fromUnixTimestamp, stringifyCoinbaseDate, parseCoinbaseCandle } from '../../lib/coinbase.mjs'
 import { fromAsync } from '../../lib/async.mjs'
