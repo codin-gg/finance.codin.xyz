@@ -1,9 +1,5 @@
 #!/usr/bin/env node --experimental-modules
 
-// import path from 'node:path'
-// import fs from 'node:fs/promises'
-// import readline from 'node:readline'
-
 import { createReadStream, createWriteStream } from 'node:fs'
 import { EOL } from 'node:os'
 

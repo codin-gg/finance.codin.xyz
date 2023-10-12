@@ -8,7 +8,6 @@ import { readCache, byExchange, readLastCachedJsonLineOf } from '../lib/cache.mj
 import { csvDateReplacer, jsonDateReviver } from '../lib/date.mjs'
 
 console.log('bin/build-coinbase-latest load: data/* ')
-
 try {
   console.time('bin/build-coinbase-latest create: @api/latest.{format:json,csv} time')
 
