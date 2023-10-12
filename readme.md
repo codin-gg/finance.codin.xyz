@@ -5,6 +5,14 @@ An open-source cryptocurrency data service, with daily-updated data in multiple 
 
 [![node](https://img.shields.io/badge/node-20%2B-blue.svg?style=for-the-badge)](https://nodejs.org/docs) [![npm](https://img.shields.io/badge/node-10%2B-blue.svg?style=for-the-badge)](https://nodejs.org/docs) [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge&colorB=007EC6)](https://spdx.org/licenses/MIT)
 
+## Currently supported formats 📋
+- [x] JSON
+- [x] CSV
+- [x] ~~XML (deprecated)~~
+- [x] ~~JSONL (deprecated)~~
+
+Notes: Those deprecations are due to [Github Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limits-on-use-of-github-pages) disk space limitations. For now, we rather'd rather like to focus on having more timeframes. btw `csv` is the least disk hungry google sheets compatible format 🚀
+
 ## Donations 🙏
 - **BTC:** bc1qp8v7qleltzas46h3zmsw0epflmkks5v3c3f0cq <!-- codin.x -->
 - **ETH:** 0x0Ce2dE22C755Ea3828f0c845769781a49557c834 <!-- codin.x -->
