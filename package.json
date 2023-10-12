@@ -10,6 +10,7 @@
   "scripts": {
     "node": "node --experimental-modules",
     "sync-coinbase": "node --experimental-modules bin/sync-coinbase.mjs",
+    "sync-coinbase-latest-prices": "node --experimental-modules bin/sync-coinbase-latest-prices.mjs",
     "build-sitemap": "node --experimental-modules bin/build-sitemap.mjs",
     "build-coinbase": "node --experimental-modules bin/build-coinbase.mjs",
     "build-coinbase-history": "node --experimental-modules bin/build-coinbase-history.mjs",

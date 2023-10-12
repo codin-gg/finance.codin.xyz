@@ -2,7 +2,7 @@ import { describe, it } from 'node:test'
 import { equal, deepEqual } from 'node:assert/strict'
 import { Readable } from 'node:stream'
 
-import { byExchange, byInterval, readCache, readLastCachedLineOf, readLastCachedJsonLineOf } from '../../lib/cache.mjs'
+import { byExchange, byInterval, allOf, readCache, readLastCachedLineOf, readLastCachedJsonLineOf } from '../../lib/cache.mjs'
 
 describe('lib/cache', () => {
   describe('.byExchange', () => {
@@ -21,6 +21,17 @@ describe('lib/cache', () => {
     it('returns a predicate matching the provided interval name', () => {
       const matchesIfContainsInterval = byInterval('1d')
       equal(matchesIfContainsInterval('coinbase,btc-usd,1d.jsonl'), true)
+    })
+  })
+  describe('.allOf', () => {
+    it('is callable', () => {
+      equal(typeof byInterval, 'function')
+    })
+    it('returns a predicate matching all provided predicates', () => {
+      const matchesIfContainsExchange = byExchange('bybit')
+      const matchesIfContainsInterval = byInterval('1d')
+      const matchesIfContainsExchangeAndInterval = allOf(matchesIfContainsExchange, matchesIfContainsInterval)
+      equal(matchesIfContainsExchangeAndInterval('bybit,btc-usd,1d.jsonl'), true)
     })
   })
   describe('.readCache', () => {
