@@ -46,7 +46,6 @@ jobs:
       - run: npm run build-coinbase
       - run: npm run build-sitemap
       - run: npm run build-coinbase-history
-      - run: npm run build-coinbase-latest
       - run: npm run sync-coinbase-latest-prices
         env:
           npm_config_coinbase_api_key: ${{ secrets.coinbase_api_key }}
