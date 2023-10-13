@@ -3,26 +3,29 @@
 import { createReadStream, createWriteStream } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 import { readCache, byExchange } from '../lib/cache.mjs'
-import { fromJsonl as jsonlToCsv } from '../lib/stream/csv.mjs'
-import { fromJsonl as jsonlToJson } from '../lib/stream/json.mjs'
+import { writeJson, writeCsv, parseJsonl } from '../lib/jsonl.mjs'
 
 for (const file of await readCache(byExchange('coinbase'))) {
-  console.log('► bin/build-coinbase loading:%s', file)
-  const [directory, exchange, id, interval, format] = file.split(/[/,.]/)
+  const [,, id, interval] = file.split(/[/,.]/)
+  const source = createReadStream(file) // todo: at some point cache should return streams directly
+  console.log('bin/build-coinbase @load readCache:', file)
+
   await mkdir(`www/api/${id}`, { recursive: true })
-  console.log('↳ exchange:', directory)
-  console.log('↳ exchange:', exchange)
-  console.log('↳ id:', id)
-  console.log('↳ interval:', interval)
-  console.log('↳ source:', format)
-  // csv
-  console.time(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.csv elapsed`)
-  jsonlToCsv(createReadStream(file))
-    .pipe(createWriteStream(`www/api/${id}/${interval}.csv`))
-    .on('close', () => console.timeEnd(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.csv elapsed`))
-  // json
-  console.time(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.json elapsed`)
-  jsonlToJson(createReadStream(file))
-    .pipe(createWriteStream(`www/api/${id}/${interval}.json`))
-    .on('close', () => console.timeEnd(`◄ bin/build-coinbase created: ${file} ➡️ www/api/${id}/${interval}.json elapsed`))
+  await convertJsonl(writeCsv, source, `www/api/${id}/${interval}.csv`, dateReplacerFor(interval))
+  await convertJsonl(writeJson, source, `www/api/${id}/${interval}.json`, dateReplacerFor(interval))
+}
+
+function dateReplacerFor (interval) { // todo: would kinda make sense moving this to lib/date.mjs
+  return /\d+[dwmy]/.test(interval)
+    ? (_, value) => value === new Date(value).toJSON() ? new Date(value).toJSON().substring(0, 10) : value
+    : (_, value) => value
+}
+
+function convertJsonl (writeFn, src, dst, timerLabel, replacer) { // todo: this could be maybe better placed in lib/jsonl.mjs or lib/cache.mjs
+  console.time(`bin/build-coinbase @async ${writeFn.name}: ${dst} time`)
+  return src
+    .pipe(parseJsonl({ objectMode: true }))
+    .pipe(writeJson({ objectMode: true, replacer }))
+    .pipe(createWriteStream(dst))
+    .on('close', console.timeEnd.bind(console, `bin/build-coinbase @async ${writeFn.name}: ${dst} time`))
 }
