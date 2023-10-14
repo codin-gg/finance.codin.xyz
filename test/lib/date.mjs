@@ -1,7 +1,13 @@
 import { describe, it } from 'node:test'
-import { ok, equal } from 'node:assert/strict'
+import { ok, equal, deepEqual } from 'node:assert/strict'
 
-import { INTERVALS, parseInterval, daysBetween, jsonDateReviver, utcDate } from '../../lib/date.mjs'
+import {
+  INTERVALS,
+  parseInterval,
+  daysBetween, utcDate,
+  jsonDateReviver,
+  noopDateReplacer, isoDateReplacer, shortDateFor
+} from '../../lib/date.mjs'
 
 describe('lib/date', () => {
   describe('.INTERVALS', () => {
@@ -22,20 +28,6 @@ describe('lib/date', () => {
     })
     it('has a key of "1" for minutes', () => {
       ok(INTERVALS.has('1'))
-    })
-  })
-  describe('.daysBetween', () => {
-    it('is callable', () => {
-      equal(typeof daysBetween, 'function')
-    })
-    it('returns a number', () => {
-      equal(typeof daysBetween(new Date(), new Date()), 'number')
-    })
-    it('returns the number of days between two dates', () => {
-      equal(daysBetween(new Date('2021-09-26'), new Date('2021-09-27')), 1)
-    })
-    it('returns the number of days between two dates with iso8601 format', () => {
-      equal(daysBetween(new Date('2021-09-26T10:30:00.000Z'), new Date('2021-09-27T10:30:00.000Z')), 1)
     })
   })
   describe('.parseInterval', () => {
@@ -76,6 +68,32 @@ describe('lib/date', () => {
       equal(parseInterval('2'), INTERVALS.get('2'))
     })
   })
+  describe('.daysBetween', () => {
+    it('is callable', () => {
+      equal(typeof daysBetween, 'function')
+    })
+    it('returns a number', () => {
+      equal(typeof daysBetween(new Date(), new Date()), 'number')
+    })
+    it('returns the number of days between two dates', () => {
+      equal(daysBetween(new Date('2021-09-26'), new Date('2021-09-27')), 1)
+    })
+    it('returns the number of days between two dates with iso8601 format', () => {
+      equal(daysBetween(new Date('2021-09-26T10:30:00.000Z'), new Date('2021-09-27T10:30:00.000Z')), 1)
+    })
+  })
+  describe('.utcDate', () => {
+    it('is callable', () => {
+      equal(typeof utcDate, 'function')
+    })
+    it('returns a Date', () => {
+      ok(utcDate() instanceof Date)
+    })
+    it('returns a Date that is adjusted to .getTimezoneOffset ', () => {
+      const now = new Date()
+      equal(utcDate(now).toJSON(), new Date(now.getTime() + (now.getTimezoneOffset() * 6e4)).toJSON())
+    })
+  })
   describe('.jsonDateReviver', () => {
     it('is callable', () => {
       equal(typeof jsonDateReviver, 'function')
@@ -96,16 +114,43 @@ describe('lib/date', () => {
       ok(jsonDateReviver(null, '2023/09/26 10:30:00', /^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}$/) instanceof Date) // Custom format regex
     })
   })
-  describe('.utcDate', () => {
+  describe('.noopDateReplacer', () => {
     it('is callable', () => {
-      equal(typeof utcDate, 'function')
+      ok(noopDateReplacer instanceof Function)
     })
-    it('returns a Date', () => {
-      ok(utcDate() instanceof Date)
+    it('returns without applying any replacement', () => {
+      deepEqual(noopDateReplacer('key', 'value'), 'value')
     })
-    it('returns a Date that is adjusted to .getTimezoneOffset ', () => {
-      const now = new Date()
-      equal(utcDate(now).toJSON(), new Date(now.getTime() + (now.getTimezoneOffset() * 6e4)).toJSON())
+  })
+  describe('.isoDateReplacer', () => {
+    it('is callable', () => {
+      ok(isoDateReplacer instanceof Function)
+    })
+    it('shortens iso dates down to its date value', () => {
+      const aJsonDateString = new Date().toISOString()
+      equal(isoDateReplacer(null, aJsonDateString), aJsonDateString.slice(0, 10))
+    })
+    it('returns the original value otherwise', () => {
+      equal(isoDateReplacer(null, 42), 42)
+    })
+    it('is compatible with JSON.stringify', () => {
+      const aDate = new Date() // note: to my understanding .toJSON get's invoked prior calling the replacer function
+      equal(JSON.stringify(aDate, isoDateReplacer), JSON.stringify(aDate.toISOString().slice(0, 10)))
+    })
+  })
+  describe('.shortDateFor', () => {
+    it('is callable', () => {
+      ok(shortDateFor instanceof Function)
+    })
+    it('returns noopDateReplacer intervals that require hours minutes and seconds', () => {
+      equal(shortDateFor('1'), noopDateReplacer)
+      equal(shortDateFor('2h'), noopDateReplacer)
+    })
+    it('returns isoDateReplacer for date intervals that are daily timeframe and above', () => {
+      equal(shortDateFor('1d'), isoDateReplacer)
+      equal(shortDateFor('2w'), isoDateReplacer)
+      equal(shortDateFor('3m'), isoDateReplacer)
+      equal(shortDateFor('4y'), isoDateReplacer)
     })
   })
 })

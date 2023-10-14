@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test'
-import { ok, equal, deepEqual } from 'node:assert/strict'
+import { throws, ok, equal, deepEqual } from 'node:assert/strict'
 import { Duplex, Readable, Transform } from 'node:stream'
 
-import { groupBy, parseJsonl, writeJsonl, writeJson, writeCsv } from '../../lib/jsonl.mjs'
+import { parseJsonl, groupBy, writeJsonl, writeJson, writeCsv, writeXml } from '../../lib/jsonl.mjs'
 import { EOL } from 'node:os'
 import { fromAsync } from '../../lib/async.mjs'
 
@@ -69,6 +69,31 @@ describe('lib/jsonl', () => {
     })
     it.todo('handles object mode true -> and converts to objects')
     it.todo('handles object mode false -> splits by line but keeps buffers|strings and does not parse nor rewrite dates')
+  })
+  describe('.groupBy', () => {
+    it('is callable', () => {
+      equal(typeof groupBy, 'function')
+    })
+    it('returns a stream.Transform', () => {
+      ok(groupBy() instanceof Transform)
+    })
+    it('groups by a given function', async () => {
+      const aByYearPredicate = ([date]) => date.getUTCFullYear()
+      const groups = groupBy(aByYearPredicate)
+
+      createReadableObjectsWith(
+        [new Date(Date.UTC(2022, 1, 1)), 'foo'],
+        [new Date(Date.UTC(2023, 1, 1)), 'bar'],
+        [new Date(Date.UTC(2023, 2, 1)), 'baz']
+      ).pipe(groups)
+
+      const groupStreams = []
+      for await (const group of groups) {
+        groupStreams.push(group)
+      }
+
+      equal(groupStreams.length, 2)
+    })
   })
   describe('.writeJsonl', () => {
     it('is callable', () => {
@@ -157,30 +182,13 @@ describe('lib/jsonl', () => {
       deepEqual(await fromAsync(await csvLines), ['xyz' + EOL, 'bar' + EOL, 'baz' + EOL])
     })
   })
-  describe.todo('.writeXml')
-  describe('.groupBy', () => {
+
+  describe('.writeXml', () => {
     it('is callable', () => {
-      equal(typeof groupBy, 'function')
+      ok(writeXml instanceof Function)
     })
-    it('returns a stream.Transform', () => {
-      ok(groupBy() instanceof Transform)
-    })
-    it('groups by a given function', async () => {
-      const aByYearPredicate = ([date]) => date.getUTCFullYear()
-      const groups = groupBy(aByYearPredicate)
-
-      createReadableObjectsWith(
-        [new Date(Date.UTC(2022, 1, 1)), 'foo'],
-        [new Date(Date.UTC(2023, 1, 1)), 'bar'],
-        [new Date(Date.UTC(2023, 2, 1)), 'baz']
-      ).pipe(groups)
-
-      const groupStreams = []
-      for await (const group of groups) {
-        groupStreams.push(group)
-      }
-
-      equal(groupStreams.length, 2)
+    it('returns a stream', () => {
+      throws(() => writeXml())
     })
   })
 })
