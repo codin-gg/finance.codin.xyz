@@ -1,10 +1,10 @@
 import { describe, it } from 'node:test'
 import { throws, ok, equal, deepEqual } from 'node:assert/strict'
 import { Duplex, Readable, Transform } from 'node:stream'
-
-import { parseJsonl, groupBy, writeJsonl, writeJson, writeCsv, writeXml } from '../../lib/jsonl.mjs'
 import { EOL } from 'node:os'
+import { parseJsonl, groupBy, writeJsonl, writeJson, writeCsv, writeXml } from '../../lib/jsonl.mjs'
 import { fromAsync } from '../../lib/async.mjs'
+import { noopDateReplacer } from '../../lib/date.mjs'
 
 function createReadableObjectsWith (...chunks) {
   const data = new Readable({ objectMode: true })
@@ -67,8 +67,34 @@ describe('lib/jsonl', () => {
         ok(date instanceof Date)
       }
     })
-    it.todo('handles object mode true -> and converts to objects')
-    it.todo('handles object mode false -> splits by line but keeps buffers|strings and does not parse nor rewrite dates')
+    describe('handles objectMode correclty', () => {
+      const anObject = { foo: 'bar' }
+
+      it('parses incoming buffers when true', async () => {
+        const aFileStream = new Readable({ objectMode: false })
+        aFileStream.push(JSON.stringify(anObject))
+        aFileStream.push(null)
+
+        const parsedJsonLines = parseJsonl({ objectMode: true })
+        aFileStream.pipe(parsedJsonLines)
+
+        for await (const line of parsedJsonLines) {
+          deepEqual(line, anObject)
+        }
+      })
+      it('does not parse incoming buffers, and only splits lines, when false', async () => {
+        const aFileStream = new Readable({ objectMode: false })
+        aFileStream.push(JSON.stringify(anObject))
+        aFileStream.push(null)
+
+        const rawJsonLines = parseJsonl({ objectMode: false })
+        aFileStream.pipe(rawJsonLines)
+
+        for await (const line of rawJsonLines) {
+          equal(line.toString(), JSON.stringify(anObject))
+        }
+      })
+    })
   })
   describe('.groupBy', () => {
     it('is callable', () => {
@@ -122,6 +148,35 @@ describe('lib/jsonl', () => {
         equal(line, JSON.stringify('baz') + EOL)
       }
     })
+    describe('handles objectMode correclty', () => {
+      it('writes objects using JSON.stringify when true', async () => {
+        const parsedJsonl = new Readable({ objectMode: true })
+        parsedJsonl.push({ foo: 'bar' })
+        parsedJsonl.push({ bar: 'baz' })
+        parsedJsonl.push(null)
+
+        const parsedJsonLines = writeJsonl({ objectMode: true, replacer: noopDateReplacer })
+        parsedJsonl.pipe(parsedJsonLines)
+
+        deepEqual(await fromAsync(await parsedJsonLines), [
+          JSON.stringify({ foo: 'bar' }) + EOL,
+          JSON.stringify({ bar: 'baz' }) + EOL
+        ])
+      })
+      it('writes buffers directly when false', async () => {
+        const unparsedJsonl = new Readable({ objectMode: false })
+        unparsedJsonl.push(JSON.stringify({ foo: 'bar' }) + EOL)
+        unparsedJsonl.push(JSON.stringify({ bar: 'baz' }) + EOL)
+        unparsedJsonl.push(null)
+
+        const rawJsonLines = writeJsonl({ objectMode: false })
+        unparsedJsonl.pipe(rawJsonLines)
+
+        deepEqual(await fromAsync(await unparsedJsonl), [
+          Buffer.from(JSON.stringify({ foo: 'bar' }) + EOL + JSON.stringify({ bar: 'baz' }) + EOL)
+        ])
+      })
+    })
   })
   describe('.writeJson', () => {
     it('is callable', () => {
@@ -146,6 +201,40 @@ describe('lib/jsonl', () => {
         .pipe(jsonLines)
 
       deepEqual(await fromAsync(await jsonLines), ['["baz"', ',"baz"', ']' + EOL])
+    })
+    describe('handles objectMode correclty', () => {
+      it('writes objects using JSON.stringify when true', async () => {
+        const parsedJsonl = new Readable({ objectMode: true })
+        parsedJsonl.push({ foo: 'bar' })
+        parsedJsonl.push({ bar: 'baz' })
+        parsedJsonl.push(null)
+
+        const parsedJsonLines = writeJson({ objectMode: true, replacer: noopDateReplacer })
+        parsedJsonl.pipe(parsedJsonLines)
+
+        deepEqual(await fromAsync(await parsedJsonLines), [
+          '[' + JSON.stringify({ foo: 'bar' }),
+          ',' + JSON.stringify({ bar: 'baz' }),
+          ']' + EOL
+        ])
+      })
+      it('writes buffers directly when false', async () => {
+        const unparsedJsonl = new Readable({ objectMode: false })
+        unparsedJsonl.push(JSON.stringify({ foo: 'bar' }) + EOL)
+        unparsedJsonl.push(JSON.stringify({ bar: 'baz' }) + EOL)
+        unparsedJsonl.push(null)
+
+        const rawJsonLines = writeJson({ objectMode: false })
+        unparsedJsonl.pipe(rawJsonLines)
+
+        deepEqual(
+          await fromAsync(await rawJsonLines), [
+            '[' + JSON.stringify({ foo: 'bar' }),
+            ',' + JSON.stringify({ bar: 'baz' }),
+            ']' + EOL
+          ]
+        )
+      })
     })
   })
   describe('.writeCsv', () => {
@@ -181,8 +270,39 @@ describe('lib/jsonl', () => {
 
       deepEqual(await fromAsync(await csvLines), ['xyz' + EOL, 'bar' + EOL, 'baz' + EOL])
     })
-  })
+    describe('handles objectMode correclty', () => {
+      it('writes objects using JSON.stringify when true', async () => {
+        const parsedJsonl = new Readable({ objectMode: true })
+        parsedJsonl.push(['foo', 'bar'])
+        parsedJsonl.push(['bar', 'baz'])
+        parsedJsonl.push(null)
 
+        const parsedJsonLines = writeCsv(['a', 'b'], { objectMode: true, replacer: noopDateReplacer })
+        parsedJsonl.pipe(parsedJsonLines)
+
+        deepEqual(await fromAsync(await parsedJsonLines), [
+          'a,b' + EOL,
+          'foo,bar' + EOL,
+          'bar,baz' + EOL
+        ])
+      })
+      it('writes buffers directly when false', async () => {
+        const unparsedJsonl = new Readable({ objectMode: false })
+        unparsedJsonl.push(JSON.stringify({ foo: 'bar' }) + EOL)
+        unparsedJsonl.push(JSON.stringify({ bar: 'baz' }) + EOL)
+        unparsedJsonl.push(null)
+
+        const rawJsonLines = writeCsv(['a', 'b'], { objectMode: false })
+        unparsedJsonl.pipe(rawJsonLines)
+
+        deepEqual(await fromAsync(await rawJsonLines), [
+          'a,b' + EOL,
+          JSON.stringify({ foo: 'bar' }) + EOL,
+          JSON.stringify({ bar: 'baz' }) + EOL
+        ])
+      })
+    })
+  })
   describe('.writeXml', () => {
     it('is callable', () => {
       ok(writeXml instanceof Function)
