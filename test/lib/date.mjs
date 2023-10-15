@@ -6,7 +6,8 @@ import {
   parseInterval,
   daysBetween, utcDate,
   jsonDateReviver,
-  noopDateReplacer, isoDateReplacer, shortDateFor
+  noopDateReplacer, isoDateReplacer, shortDateFor,
+  firstDateOfIntervalUsing, firstDateOfNextIntervalUsing
 } from '../../lib/date.mjs'
 
 describe('lib/date', () => {
@@ -151,6 +152,45 @@ describe('lib/date', () => {
       equal(shortDateFor('2w'), isoDateReplacer)
       equal(shortDateFor('3m'), isoDateReplacer)
       equal(shortDateFor('4y'), isoDateReplacer)
+    })
+  })
+  describe('.firstDateOfIntervalUsing', () => {
+    const aDate = new Date('2021-09-26T00:00:00.000Z')
+    it('is callable', () => {
+      ok(firstDateOfIntervalUsing instanceof Function)
+    })
+    it('returns the first date of the year when given a year interval', () => {
+      equal(firstDateOfIntervalUsing(aDate, '1y').toJSON(), new Date('2021-01-01').toJSON())
+    })
+    it('returns the first date of the month when given a month interval', () => {
+      equal(firstDateOfIntervalUsing(aDate, '1m').toJSON(), new Date('2021-09-01').toJSON())
+    })
+    it('returns the first date of the week when given a week interval', () => {
+      equal(firstDateOfIntervalUsing(aDate, '1w').toJSON(), new Date('2021-09-20').toJSON())
+    })
+    it('returns the same date when given any other interval', () => {
+      equal(firstDateOfIntervalUsing(aDate, '1d').toJSON(), aDate.toJSON())
+      equal(firstDateOfIntervalUsing(aDate, '1h').toJSON(), aDate.toJSON())
+      equal(firstDateOfIntervalUsing(aDate, '1').toJSON(), aDate.toJSON())
+    })
+  })
+  describe('firstDateOfNextIntervalUsing', () => {
+    it('is callable', () => {
+      ok(firstDateOfNextIntervalUsing instanceof Function)
+    })
+    it('returns the first date of the next year when given a year interval', () => {
+      equal(firstDateOfNextIntervalUsing(new Date('2021-09-26'), '1y').toJSON(), new Date('2022-01-01').toJSON())
+    })
+    it('returns the first date of the next month when given a month interval', () => {
+      equal(firstDateOfNextIntervalUsing(new Date('2021-09-26'), '1m').toJSON(), new Date('2021-10-01').toJSON())
+    })
+    it('returns the first date of the next week when given a week interval', () => {
+      equal(firstDateOfNextIntervalUsing(new Date('2022-01-01'), '1w').toJSON(), new Date('2022-01-03').toJSON())
+    })
+    it('returns the same date when given any other interval', () => {
+      equal(firstDateOfNextIntervalUsing(new Date('2021-09-26'), '1d').toJSON(), new Date('2021-09-26').toJSON())
+      equal(firstDateOfNextIntervalUsing(new Date('2021-09-26'), '1h').toJSON(), new Date('2021-09-26').toJSON())
+      equal(firstDateOfNextIntervalUsing(new Date('2021-09-26'), '1').toJSON(), new Date('2021-09-26').toJSON())
     })
   })
 })
