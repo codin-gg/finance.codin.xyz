@@ -13,6 +13,11 @@ An open-source cryptocurrency data service, with daily-updated data in multiple 
 
 Notes: Those deprecations are due to [Github Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limits-on-use-of-github-pages) disk space limitations. For now, we rather'd rather like to focus on having more timeframes. btw `csv` is the least disk hungry google sheets compatible format 🚀
 
+## Currently supported routes
+- [x] `/api/latest.{format:json,csv} → [[{id}, {base id}, {base name}, {quote id}, {quote name}, {status}, {price}, {volume 24h}, {price % 24h}, {volume % 24h}, {cached}], ...]`
+- [x] `/api/{id}/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
+- [x] `/api/{id}/{year?}/{month?}/{day?}/{interval:1d}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
+
 ## Donations 🙏
 - **BTC:** bc1qp8v7qleltzas46h3zmsw0epflmkks5v3c3f0cq <!-- codin.x -->
 - **ETH:** 0x0Ce2dE22C755Ea3828f0c845769781a49557c834 <!-- codin.x -->
