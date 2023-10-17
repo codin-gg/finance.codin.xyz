@@ -12,15 +12,22 @@ for (const file of await readCache(byExchange('coinbase'))) {
   console.log('bin/build-coinbase @load readCache:', file)
 
   await mkdir(`www/api/${id}`, { recursive: true })
-  await convertJsonl(writeCsv, source, `www/api/${id}/${interval}.csv`, shortDateFor(interval))
-  await convertJsonl(writeJson, source, `www/api/${id}/${interval}.json`, shortDateFor(interval))
-}
 
-function convertJsonl (write, src, dst, replacer) { // todo: this could be maybe better placed in lib/jsonl.mjs or lib/cache.mjs
-  console.time(`bin/build-coinbase @async ${write.name}: ${dst} time`)
-  return src
-    .pipe(parseJsonl({ objectMode: true }))
-    .pipe(write({ objectMode: true, replacer }))
-    .pipe(createWriteStream(dst))
-    .on('close', console.timeEnd.bind(console, `bin/build-coinbase @async ${write.name}: ${dst} time`))
+  ;(function (write, src, dst, replacer) { // todo: this could be maybe better placed in lib/jsonl.mjs or lib/cache.mjs
+    console.time(`bin/build-coinbase @async ${write.name}: ${dst} time`)
+    return src
+      .pipe(parseJsonl({ objectMode: true }))
+      .pipe(write(['date', 'open', 'high', 'low', 'close', 'volume'], { objectMode: true, replacer }))
+      .pipe(createWriteStream(dst))
+      .on('close', console.timeEnd.bind(console, `bin/build-coinbase @async ${write.name}: ${dst} time`))
+  })(writeCsv, source, `www/api/${id}/${interval}.csv`, shortDateFor(interval))
+
+  ;(function convertJsonl (write, src, dst, replacer) { // todo: this could be maybe better placed in lib/jsonl.mjs or lib/cache.mjs
+    console.time(`bin/build-coinbase @async ${write.name}: ${dst} time`)
+    return src
+      .pipe(parseJsonl({ objectMode: true }))
+      .pipe(write({ objectMode: true, replacer }))
+      .pipe(createWriteStream(dst))
+      .on('close', console.timeEnd.bind(console, `bin/build-coinbase @async ${write.name}: ${dst} time`))
+  })(writeJson, source, `www/api/${id}/${interval}.json`, shortDateFor(interval))
 }
