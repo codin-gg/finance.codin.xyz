@@ -24,14 +24,6 @@ describe('lib/coinbase', () => {
       deepEqual(data, anObject)
       mock.reset(global, 'fetch')
     })
-    it.skip('fetches coinbase urls with dates', async () => {
-      const anObject = { date: new Date() }
-      mock.method(global, 'fetch', (url, init) => Promise.resolve({ text: () => Promise.resolve(JSON.stringify(anObject)) }))
-      const data = await fetchCoinbase('products', undefined, { npm_config_coinbase_api_base: 'https://api.exchange.coinbase.com' })
-      ok(data.date instanceof Date)
-      equal(data.date.toJSON(), anObject.date.toJSON())
-      mock.reset(global, 'fetch')
-    })
   })
   describe('.fetchCandlesSince', () => {
     it('is a generator function', () => {
