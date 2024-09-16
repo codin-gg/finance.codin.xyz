@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 * * * * # This should run every thour this way we can get the "latest" prices fetched; todo: fetch previousHour candle also
+    - cron: 1 0 * * * # This should trigger at 00:01 UTC every day.
   workflow_run:
     workflows: [Tests]
     types: [completed]
