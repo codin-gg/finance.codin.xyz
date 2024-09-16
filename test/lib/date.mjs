@@ -7,10 +7,34 @@ import {
   daysBetween, utcDate,
   jsonDateReviver,
   noopDateReplacer, isoDateReplacer, shortDateFor,
-  firstDateOfIntervalUsing, firstDateOfNextIntervalUsing
+  firstDateOfIntervalUsing, firstDateOfNextIntervalUsing,
+  toUnixTimestamp,
+  fromUnixTimestamp
 } from '../../lib/date.mjs'
 
 describe('lib/date', () => {
+  describe('.toUnixTimestamp', () => {
+    it('is callable', () => {
+      equal(typeof toUnixTimestamp, 'function')
+    })
+    it('converts a Date to UNIX timestamp correctly', () => {
+      equal(toUnixTimestamp(new Date('2021-10-11T00:00:00.000Z')), 1633910400000)
+    })
+    it('converts a Date to UNIX timestamp correctly with adjusted milliseconds', () => {
+      equal(toUnixTimestamp(new Date('2021-10-11T00:00:00.000Z'), 1e-3), 1633910400)
+    })
+  })
+  describe('.fromUnixTimestamp', () => {
+    it('is callable', () => {
+      equal(typeof fromUnixTimestamp, 'function')
+    })
+    it('converts a UNIX timestamp to Date correctly', () => {
+      deepEqual(fromUnixTimestamp(1633910400000), new Date('2021-10-11T00:00:00.000Z'))
+    })
+    it('converts a UNIX timestamp to Date correctly with adjusted milliseconds', () => {
+      deepEqual(fromUnixTimestamp(1633910400, 1e3), new Date('2021-10-11T00:00:00.000Z'))
+    })
+  })
   describe('.INTERVALS', () => {
     it('is a Map', () => {
       ok(INTERVALS instanceof Map)

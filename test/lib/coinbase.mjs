@@ -1,8 +1,9 @@
 import { describe, it, mock } from 'node:test'
 import { ok, equal, deepEqual } from 'node:assert/strict'
 import { isGeneratorFunction } from 'node:util/types'
-import { fetchCoinbase, fetchCandlesSince, coinbaseIntervalFor, coinbaseIdFor, toUnixTimestamp, fromUnixTimestamp, stringifyCoinbaseDate, parseCoinbaseCandle } from '../../lib/coinbase.mjs'
+import { fetchCoinbase, fetchCandlesSince, coinbaseIntervalFor, coinbaseIdFor, parseCoinbaseCandle } from '../../lib/coinbase.mjs'
 import { fromAsync } from '../../lib/async.mjs'
+import { fromUnixTimestamp, toUnixTimestamp } from '../../lib/date.mjs'
 
 describe('lib/coinbase', () => {
   describe('.fetchCoinbase', () => {
@@ -34,7 +35,7 @@ describe('lib/coinbase', () => {
       const anObject = [[toUnixTimestamp(aDate), 1, 2, 3, 4, 5]]
       mock.method(global, 'fetch', (url, init) => Promise.resolve({ text: () => Promise.resolve(JSON.stringify(anObject)) }))
       const data = await fromAsync(fetchCandlesSince(new Date(), 'BTC-USD', 'ONE_DAY', { npm_config_coinbase_api_base: 'https://api.exchange.coinbase.com' }))
-      deepEqual(data, [[fromUnixTimestamp(toUnixTimestamp(aDate)), 3, 2, 1, 4, 5]])
+      deepEqual(data, [[fromUnixTimestamp(toUnixTimestamp(aDate), 1e3), 3, 2, 1, 4, 5]])
       mock.reset(global, 'fetch')
     })
   })
@@ -58,34 +59,6 @@ describe('lib/coinbase', () => {
     })
     it('returns a ticker id for a given file name', () => {
       equal(coinbaseIdFor('coinbase,btc-eur,1h'), 'BTC-EUR')
-    })
-  })
-  describe('.toUnixTimestamp', () => {
-    it('is callable', () => {
-      equal(typeof toUnixTimestamp, 'function')
-    })
-    it('converts a Date to UNIX timestamp correctly', () => {
-      equal(toUnixTimestamp(new Date('2021-10-11T00:00:00.000Z')), 1633910400)
-    })
-  })
-  describe('.fromUnixTimestamp', () => {
-    it('is callable', () => {
-      equal(typeof fromUnixTimestamp, 'function')
-    })
-    it('converts a UNIX timestamp to Date correctly', () => {
-      deepEqual(fromUnixTimestamp(1633910400), new Date('2021-10-11T00:00:00.000Z'))
-    })
-  })
-  describe('.stringifyCoinbaseDate', () => {
-    it('is callable', () => {
-      equal(typeof stringifyCoinbaseDate, 'function')
-    })
-    it('is alias of .toUnixTimestamp', () => {
-      ok(/return toUnixTimestamp/.test(stringifyCoinbaseDate.toString()))
-    })
-    it('returns just the same as .toUnixTimestamp', () => {
-      const aDate = new Date('2021-10-11T00:00:00.000Z')
-      equal(stringifyCoinbaseDate(aDate), toUnixTimestamp(aDate))
     })
   })
   describe('.parseCoinbaseCandle', () => {
