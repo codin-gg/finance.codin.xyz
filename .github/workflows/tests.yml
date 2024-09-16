@@ -6,8 +6,8 @@ jobs:
     env:
       NODE_V8_COVERAGE: coverage
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           check-latest: true
           node-version-file: .node-version
@@ -16,7 +16,7 @@ jobs:
       - run: npm test
       - run: npx c8 report -r lcov
       - uses: coverallsapp/github-action@v2
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: code-coverage
           path: ${{ env.NODE_V8_COVERAGE }}/lcov-report
