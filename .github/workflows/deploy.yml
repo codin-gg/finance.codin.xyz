@@ -35,6 +35,9 @@ jobs:
           path: data
           key: jsonl-data
       - run: npm run sync-coinbase
+        env:
+          npm_config_coinbase_api_base: ${{ vars.coinbase_api_base }}
+          npm_config_binance_api_base: ${{ vars.binance_api_base }}
       - uses: actions/cache/save@v4
         with:
           path: data
