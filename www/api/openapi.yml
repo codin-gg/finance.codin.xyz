@@ -1,0 +1,192 @@
+openapi: 3.0.0
+info:
+  title: //finance.codin.xyz
+  version: 1.0.0-beta
+  description: An open-source cryptocurrency data service, with daily-updated data in multiple formats. Accessible, developer-friendly, and Google Sheets and RSS reader-friendly.
+  termsOfService: https://finance.codin.xyz/terms-of-service.html
+  contact:
+    email: info@codin.gg
+externalDocs:
+  description: Github wiki
+  url: https://github.com/codin-gg/finance.codin.xyz/wiki
+servers:
+  - description: Github Pages
+    url: https://finance.codin.xyz/api
+availableTickers: &tickers
+  - btc-eur
+  - btc-usd
+availableIntervals: &intervals
+  - 1d
+availableFormats: &formats
+  - csv
+  - json
+paths:
+  '/{ticker}/{year}/{interval}.{format}':
+    parameters:
+      - in: path
+        name: year
+        required: true
+        schema:
+          type: number
+      - in: path
+        name: ticker
+        required: true
+        schema:
+          type: string
+          enum: *tickers
+        example: btc-usd
+      - in: path
+        name: interval
+        required: true
+        schema:
+          type: string
+          enum: *intervals
+      - in: path
+        name: format
+        required: true
+        schema:
+          type: string
+          enum: *formats
+    get:
+      tags:
+        - Date
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+            text/csv: {}
+  '/{ticker}/{year}/{month}/{interval}.{format}':
+    parameters:
+      - in: path
+        name: year
+        required: true
+        schema:
+          type: number
+      - in: path
+        name: month
+        required: true
+        schema:
+          type: number
+      - in: path
+        name: ticker
+        required: true
+        schema:
+          type: string
+          enum: *tickers
+        example: btc-usd
+      - in: path
+        name: interval
+        required: true
+        schema:
+          type: string
+          enum: *intervals
+      - in: path
+        name: format
+        required: true
+        schema:
+          type: string
+          enum: *formats
+    get:
+      tags:
+        - Date
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+            text/csv: {}
+  '/{ticker}/{year}/{month}/{day}/{interval}.{format}':
+    parameters:
+      - in: path
+        name: year
+        required: true
+        schema:
+          type: number
+      - in: path
+        name: month
+        required: true
+        schema:
+          type: number
+      - in: path
+        name: day
+        required: true
+        schema:
+          type: number
+      - in: path
+        name: ticker
+        required: true
+        schema:
+          type: string
+          enum: *tickers
+        example: btc-usd
+      - in: path
+        name: interval
+        required: true
+        schema:
+          type: string
+          enum: *intervals
+      - in: path
+        name: format
+        required: true
+        schema:
+          type: string
+          enum: *formats
+    get:
+      tags:
+        - Date
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+            text/csv: {}
+  '/{ticker}/{interval}.{format}':
+    parameters:
+      - in: path
+        name: ticker
+        required: true
+        schema:
+          type: string
+          enum: *tickers
+        example: btc-usd
+      - in: path
+        name: interval
+        required: true
+        schema:
+          type: string
+          enum: *intervals
+      - in: path
+        name: format
+        required: true
+        schema:
+          type: string
+          enum: *formats
+    get:
+      tags:
+        - Data
+      summary: Get financial data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+            text/csv:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                    open:
+                      type: number
+                    high:
+                      type: number
+                    low:
+                      type: number
+                    close:
+                      type: number
+                    volume:
+                      type: number

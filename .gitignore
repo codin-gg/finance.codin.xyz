@@ -4,7 +4,7 @@
 coverage
 node_modules
 www/api/*/
-!www/api/*.*
+!www/api/openapi.yml
 www/api/.DS_Store
 www/api/latest.csv
 www/api/latest.json
