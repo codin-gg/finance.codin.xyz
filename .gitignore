@@ -10,5 +10,5 @@ www/api/latest.csv
 www/api/latest.json
 www/sitemap.xml
 
-data/*
+data/.*
 cdp_api_key.json
