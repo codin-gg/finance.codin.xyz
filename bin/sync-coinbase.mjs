@@ -23,6 +23,8 @@ for (const file of await readCache(byExchange('coinbase'))) {
   console.log('↳ coinbaseInterval:', coinbaseIntervalFor(file))
   const nextUncachedCandleDate = new Date(lastCachedCandleDate.getTime() + INTERVALS.get(intervalFor(file)))
   const lastCachableCandleDate = new Date(utcDate(new Date()).getTime() - INTERVALS.get(intervalFor(file)))
+  console.log('↳ nextUncachedCandleDate:', nextUncachedCandleDate)
+  console.log('↳ lastCachableCandleDate:', lastCachableCandleDate)
   const numberOfCandlesToSync = daysBetween(nextUncachedCandleDate, lastCachableCandleDate)
   console.log('↳ numberOfCandlesToSync:', numberOfCandlesToSync)
   if (numberOfCandlesToSync === 0) continue
