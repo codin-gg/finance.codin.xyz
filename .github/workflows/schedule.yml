@@ -1,0 +1,10 @@
+name: Schedule
+on:
+  schedule:
+  - cron: 1 0 * * *
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Noop
+        run: echo "This is a dummy job to trigger the deployment workflow."

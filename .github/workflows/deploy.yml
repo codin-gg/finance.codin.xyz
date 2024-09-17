@@ -1,10 +1,8 @@
 name: Deploy to GitHub Pages
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 1 0 * * * # This should trigger at 00:01 UTC every day.
   workflow_run:
-    workflows: [Tests]
+    workflows: [Tests, Schedule]
     types: [completed]
     branches: [main]
 permissions:
@@ -20,7 +18,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
