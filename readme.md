@@ -6,15 +6,21 @@ An open-source cryptocurrency data service, with daily-updated data in multiple 
 [![node](https://img.shields.io/badge/node-20%2B-blue.svg?style=for-the-badge)](https://nodejs.org/docs) [![npm](https://img.shields.io/badge/node-10%2B-blue.svg?style=for-the-badge)](https://nodejs.org/docs) [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge&colorB=007EC6)](https://spdx.org/licenses/MIT)
 
 ## Currently supported formats 📋
-- [x] JSON
 - [x] CSV
+- [x] ~~JSON (deprecated)~~
 - [x] ~~XML (deprecated)~~
 - [x] ~~JSONL (deprecated)~~
 
 Notes: Those deprecations are due to [Github Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limits-on-use-of-github-pages) disk space limitations. For now, we rather'd rather like to focus on having more timeframes. btw `csv` is the least disk hungry google sheets compatible format 🚀
 
+<!--
+https://finance.codin.xyz This will be the main website that mostly links all other pages together.
+- [ ] https://finance-xml.codin.xyz
+- [ ] https://finance-json.codin.xyz
+- [ ] https://finance-jsonl.codin.xyz
+-->
+
 ## Currently supported routes
-- [x] `/api/latest.{format:json,csv} → [[{id}, {base id}, {base name}, {quote id}, {quote name}, {status}, {price}, {volume 24h}, {price % 24h}, {volume % 24h}, {cached}], ...]`
 - [x] `/api/{id}/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
 - [x] `/api/{id}/{year?}/{month?}/{day?}/{interval:1d}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
 
