@@ -14,10 +14,9 @@ servers:
     url: https://finance.codin.xyz/api
 availableTickers: &tickers
   - btc-usd
-  # - btc-eur
-  # - btc-gbp
-  # - btc-usdt
-  # - btc-usdc # this looks like discontinued
+  - btc-eur
+  - btc-gbp
+  - btc-usdt
   # - ada-usd
   # - eth-usd
   # - sol-usd
