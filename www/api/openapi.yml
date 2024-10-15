@@ -17,19 +17,19 @@ availableTickers: &tickers
   - btc-eur
   - btc-gbp
   - btc-usdt
-  # - ada-usd
-  # - eth-usd
-  # - sol-usd
-  # - dot-usd
-  # - xlm-usd
-  # - skl-usd
-  # - doge-usd
-  # - op-usd
-  # - pol-usd
-  # - ogn-usd
-  # - dash-usd
-  # - algo-usd
-  # - xtz-usd
+  - ada-usd
+  - eth-usd
+  - sol-usd
+  - dot-usd
+  - xlm-usd
+  - skl-usd
+  - doge-usd
+  - op-usd
+  - pol-usd
+  - ogn-usd
+  - dash-usd
+  - algo-usd
+  - xtz-usd
 availableIntervals: &intervals
   - 1d
 availableFormats: &formats
