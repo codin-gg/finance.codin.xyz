@@ -7,21 +7,21 @@ An open-source cryptocurrency data service, with daily-updated data in multiple 
 
 ## Currently supported formats 📋
 - [x] CSV
-- [x] ~~JSON (deprecated)~~
-- [x] ~~XML (deprecated)~~
-- [x] ~~JSONL (deprecated)~~
+- [x] JSON
 
 Notes: Those deprecations are due to [Github Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limits-on-use-of-github-pages) disk space limitations. For now, we rather'd rather like to focus on having more timeframes. btw `csv` is the least disk hungry google sheets compatible format 🚀
 
 <!--
-https://finance.codin.xyz This will be the main website that mostly links all other pages together.
-- [ ] https://finance-xml.codin.xyz
+If: also JSON format gets dropped!
+
+Consider having https://finance.codin.xyz as main project but then also link the following together.
 - [ ] https://finance-json.codin.xyz
+- [ ] https://finance-xml.codin.xyz
 - [ ] https://finance-jsonl.codin.xyz
 -->
 
 ## Currently supported routes
-- [x] `/api/{id}/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
+- [x] `/api/{id}/{interval:1d,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
 - [x] `/api/{id}/{year?}/{month?}/{day?}/{interval:1d}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
 
 ## Donations 🙏

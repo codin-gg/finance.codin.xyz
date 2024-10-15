@@ -3,19 +3,33 @@
 import { createReadStream, createWriteStream } from 'node:fs'
 import { Transform } from 'node:stream'
 
-import { readCache, allOf, byExchange, byInterval } from '../lib/cache.mjs'
+import { readCache, allOf, byExchange, byTickers, byInterval } from '../lib/cache.mjs'
 import { parseJsonl, writeJsonl } from '../lib/jsonl.mjs'
 import { firstDateOfNextIntervalUsing, firstDateOfIntervalUsing } from '../lib/date.mjs'
+import { availableTickers } from '../openapi.mjs'
 
-for (const file of await readCache(allOf(byExchange('coinbase'), byInterval('1d')))) {
+console.log('[bin/build-coinbase-intervals] OpenAPI.availableTickers:', availableTickers)
+
+for (
+  const file of await readCache(
+    allOf(
+      byExchange('coinbase'),
+      byTickers(availableTickers),
+      byInterval('1d')
+    )
+  )
+) {
+  console.log('[bin/build-coinbase-intervals] Loading: %s', file)
   const src = createReadStream(file)
-  ;['1y', '1m', '1w']
+  ;['1y', '1m'/*, '1w' */] // fixme: weekly isnt working as expected so let's cut it off for now!
     .forEach(interval => {
+      const dst = src.path.replace(',1d.jsonl', `,${interval}.jsonl`)
+      console.info('↳ convertCachedDailyJsonlTo:', dst)
       src
         .pipe(parseJsonl())
         .pipe(convertCachedDailyJsonlTo(interval))
         .pipe(writeJsonl())
-        .pipe(createWriteStream(src.path.replace(',1d.jsonl', `,${interval}.jsonl`)))
+        .pipe(createWriteStream(dst))
     })
 }
 

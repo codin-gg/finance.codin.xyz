@@ -2,11 +2,21 @@
 
 import { createReadStream, createWriteStream } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
-import { readCache, byExchange } from '../lib/cache.mjs'
+import { readCache, allOf, byTickers, byExchange } from '../lib/cache.mjs'
 import { writeJson, writeCsv, parseJsonl } from '../lib/jsonl.mjs'
 import { shortDateFor } from '../lib/date.mjs'
+import { availableTickers } from '../openapi.mjs'
 
-for (const file of await readCache(byExchange('coinbase'))) {
+console.log('[bin/build-coinbase] OpenAPI.availableTickers:', availableTickers)
+
+for (
+  const file of await readCache(
+    allOf(
+      byExchange('coinbase'),
+      byTickers(availableTickers)
+    )
+  )
+) {
   const [,, id, interval] = file.split(/[/,.]/)
   const source = createReadStream(file) // todo: at some point cache should return streams directly
   console.log('bin/build-coinbase @load readCache:', file)

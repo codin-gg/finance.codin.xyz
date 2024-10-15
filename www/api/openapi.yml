@@ -14,14 +14,14 @@ servers:
     url: https://finance.codin.xyz/api
 availableTickers: &tickers
   - btc-usd
-  - btc-eur
+  # - btc-eur
   # - btc-gbp
   # - btc-usdt
-  # - btc-usdc
+  # - btc-usdc # this looks like discontinued
+  # - ada-usd
   # - eth-usd
   # - sol-usd
   # - dot-usd
-  # - ada-usd
   # - xlm-usd
   # - skl-usd
   # - doge-usd
@@ -51,7 +51,10 @@ paths:
         required: true
         schema:
           type: string
-          enum: *intervals
+          enum:
+            - 1d
+            - 1m
+            - 1y
       - in: path
         name: format
         required: true

@@ -4,13 +4,21 @@ import { createInterface } from 'node:readline'
 import { createReadStream, createWriteStream } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 import { EOL } from 'node:os'
-import { readCache, allOf, byExchange, byInterval } from '../lib/cache.mjs'
+import { readCache, allOf, byExchange, byTickers, byInterval } from '../lib/cache.mjs'
+import { availableTickers } from '../openapi.mjs'
 
-console.time('bin/build-coinbase-history')
-
-for (const file of await readCache(allOf(byExchange('coinbase'), byInterval('1d')))) {
+console.log('[bin/build-coinbase-history] OpenAPI.availableTickers:', availableTickers)
+for (
+  const file of await readCache(
+    allOf(
+      byExchange('coinbase'),
+      byTickers(availableTickers),
+      byInterval('1d')
+    )
+  )
+) {
   const [, , id, interval] = file.split(/[/,.]/)
-  console.time(`→ loading: ${file} @api/{ticker}/{?year}/{?month}/{?day}/{interval}.{format:json,csv} time`)
+  console.time(`[bin/build-coinbase-history] Loading: ${file} @api/{ticker}/{?year}/{?month}/{?day}/{interval}.{format:json,csv} time`)
   let currentYear = 0
   let currentMonth = 0
   let currentDay = 0
@@ -82,6 +90,5 @@ for (const file of await readCache(allOf(byExchange('coinbase'), byInterval('1d'
   currentDayWritableJson?.write(']' + EOL)
   currentDayWritableJson?.end()
   currentDayWritableCsv?.end()
-  console.timeEnd(`→ loading: ${file} @api/{ticker}/{?year}/{?month}/{?day}/{interval}.{format:json,csv} time`)
+  console.timeEnd(`[bin/build-coinbase-history] Loading: ${file} @api/{ticker}/{?year}/{?month}/{?day}/{interval}.{format:json,csv} time`)
 }
-console.timeEnd('bin/build-coinbase-history')
