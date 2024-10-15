@@ -8,15 +8,14 @@
     "cache": "data"
   },
   "scripts": {
-    "node": "node --experimental-modules",
-    "sync-coinbase": "node --experimental-modules bin/sync-coinbase.mjs",
-    "sync-coinbase-latest": "node --experimental-modules bin/sync-coinbase-latest.mjs",
-    "build-sitemap": "node --experimental-modules bin/build-sitemap.mjs",
-    "build-coinbase": "node --experimental-modules bin/build-coinbase.mjs",
-    "build-coinbase-history": "node --experimental-modules bin/build-coinbase-history.mjs",
-    "build-coinbase-intervals": "node --experimental-modules bin/build-coinbase-intervals.mjs",
-    "test": "NODE_V8_COVERAGE=coverage node --experimental-modules --test --test-reporter spec --experimental-test-coverage",
-    "watch": "serve www & node --experimental-modules --test --test-reporter dot --watch test & wait"
+    "node": "node",
+    "sync-coinbase": "node bin/sync-coinbase.mjs",
+    "build-sitemap": "node bin/build-sitemap.mjs",
+    "build-coinbase": "node bin/build-coinbase.mjs",
+    "build-coinbase-history": "node bin/build-coinbase-history.mjs",
+    "build-coinbase-intervals": "node bin/build-coinbase-intervals.mjs",
+    "test": "NODE_V8_COVERAGE=coverage node --test --test-reporter spec --experimental-test-coverage",
+    "watch": "serve www & node --test --test-reporter dot --watch test & wait"
   },
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "license": "MIT",
@@ -27,7 +26,10 @@
     ]
   },
   "devDependencies": {
-    "serve": "^14.2.1",
-    "standard": "^17.1.0"
+    "serve": "^14.2.3",
+    "standard": "^17.1.2"
+  },
+  "dependencies": {
+    "yaml": "^2.6.0"
   }
 }

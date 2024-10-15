@@ -17,6 +17,7 @@
       text-transform: uppercase;
       font-size: 5rem;
       text-align: center;
+      margin: 0 auto;
     }
     h1 strong {
       background-color: rgb(38, 120, 187);
@@ -26,24 +27,60 @@
     h1 span {
       background-color: rgb(220, 220, 8);
       color: white;
+      padding: .5rem;
+      margin: .5rem;
     }
     h1 span span {
       display: inline-block;
       background-color: rgb(83, 205, 74);
     }
+    h1 span span span {
+      display: inline-block;
+      background-color: #7cf;
+    }
+    a {
+      color: #333;
+    }
+    nav ul {
+      padding: 0;
+      text-align: center;
+    }
+    nav li {
+      display: inline-block;
+      /* text-align: center; */
+    }
+    header {
+      background-color: #eed;
+      padding: 1rem !important;
+      border-radius: 1rem;
+    }
+    /* header nav ul {
+      display: none;
+    } */
+    header nav h1 {
+      /* font-size: small;
+      text-align: right; */
+    }
   </style>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
 </head>
 <body>
-  <section>
-    <h1>
-      <span>&nbsp;</span><strong>#</strong><a href="#" style="color: inherit; text-decoration: none"><strong>finance</strong><span>.<span>codin.x</span>yz</span></a>
-    </h1>
-  </section>
-  <div id="swagger-ui"></div>
+  <header>
+    <nav>
+      <h1>
+        <span>finance.<span><span>codin.x</span>yz</span></span>|gg
+      </h1>
+      <ul>
+        <li><a href="https://codin.gg">https://codin.gg</a></li>
+        <li><a href="https://codin.xyz">https://codin.xyz</a></li>
+        <li><a href="ipfs://codin.x">ipfs://codin.x</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section id="swagger-ui"></section>
   <script crossorigin src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js"></script>
   <script>
-    window.addEventListener('load', event => window.ui = SwaggerUIBundle({url: 'https://finance.codin.xyz/api/openapi.yml', dom_id: '#swagger-ui' }))
+    window.addEventListener('load', event => window.ui = SwaggerUIBundle({url: '/api/openapi.yml', dom_id: '#swagger-ui'}))
   </script>
 </body>
 </html>

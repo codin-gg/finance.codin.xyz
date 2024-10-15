@@ -13,4 +13,15 @@ www/sitemap.xml
 data/*
 !data/*,*,1d.jsonl
 
+# fixme: remove those from repo
+
 cdp_api_key.json
+
+data0/
+data2/
+binance.json
+binance.symbols.jsonl
+coinbase.json
+coinbase.symbols.jsonl
+coinmarketcap.json
+
