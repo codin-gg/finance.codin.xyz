@@ -33,9 +33,6 @@ jobs:
           path: data
           key: jsonl-data
       - run: npm run sync-coinbase
-        env:
-          npm_config_coinbase_api_base: ${{ vars.coinbase_api_base }}
-          npm_config_binance_api_base: ${{ vars.binance_api_base }}
       - uses: actions/cache/save@v4
         with:
           path: data
@@ -45,7 +42,8 @@ jobs:
       - run: npm run build-coinbase-history
       - run: npm run build-sitemap
       - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v3
+        id: deployment
         with:
           path: 'www'
   deploy:
@@ -56,4 +54,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
