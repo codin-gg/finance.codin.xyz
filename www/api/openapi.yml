@@ -5,37 +5,687 @@ info:
   description: An open-source cryptocurrency data service, with daily-updated data in multiple formats. Accessible, developer-friendly, and Google Sheets and RSS reader-friendly.
   termsOfService: https://finance.codin.xyz/terms-of-service.html
   contact:
-    email: info@codin.gg
+    email: open-source-software@codin.gg
 externalDocs:
-  description: Github Wiki
-  url: https://github.com/codin-gg/finance.codin.xyz/wiki
+  description: Github
+  url: https://github.com/codin-gg/finance.codin.xyz
 servers:
-  - description: Github Pages
+  - description: Production
     url: https://finance.codin.xyz/api
+  - description: Local
+    url: https://127.0.0.1:3000/api
 availableTickers: &tickers
-  - btc-usd
+  # -	00-usd
+  # -	arpa-usd
+  # -	bnt-btc
+  # -	ctsi-usd
+  # -	ern-usdt
+  # -	gods-usd
+  # -	link-eur
+  # -	mkr-btc
+  # -	perp-usd
+  # -	rly-usdt
+  # -	sushi-eth
+  # -	wampl-usdt
+  # -	1inch-btc
+  # -	arpa-usdt
+  # -	bnt-eur
+  # -	ctx-eur
+  # -	etc-btc
+  # -	grt-btc
+  # -	link-gbp
+  # -	mkr-usd
+  # -	perp-usdt
+  # -	rndr-eur
+  # -	sushi-eur
+  # -	waxl-usd
+  # -	1inch-eur
+  # -	asm-usd
+  # -	bnt-gbp
+  # -	ctx-usd
+  # -	etc-eur
+  # -	grt-eur
+  # -	link-usd
+  # -	mln-usd
+  # -	pirate-usd
+  # -	rndr-usd
+  # -	sushi-gbp
+  # -	wbtc-btc
+  # -	1inch-gbp
+  # -	asm-usdt
+  # -	bnt-usd
+  # -	ctx-usdt
+  # -	etc-gbp
+  # -	grt-gbp
+  # -	link-usdt
+  # -	mnde-usd
+  # -	pla-usd
+  # -	rndr-usdt
+  # -	sushi-usd
+  # -	wbtc-usd
+  # -	1inch-usd
+  # -	ast-usd
+  # -	boba-usd
+  # -	cvc-usd
+  # -	etc-usd
+  # -	grt-usd
+  # -	lit-usd
+  # -	mobile-usd
+  # -	plu-usd
+  # -	ronin-usd
+  # -	swftc-usd
+  # -	wcfg-btc
+  # -	a8-usd
+  # -	ata-usd
+  # -	boba-usdt
+  # -	cvc-usdc
+  # -	eth-btc
+  # -	gst-usd
+  # -	loka-usd
+  # -	mona-usd
+  # -	png-usd
+  # -	rose-usd
+  # -	sylo-usd
+  # -	wcfg-eur
+  # -	aave-btc
+  # -	ata-usdt
+  # -	bond-usd
+  # -	cvx-usd
+  # -	eth-dai
+  # -	gtc-usd
+  # -	loom-usd
+  # -	mpl-usd
+  # -	pol-usd
+  # -	rose-usdt
+  # -	sylo-usdt
+  # -	wcfg-usd
+  # -	aave-eur
+  # -	atom-btc
+  # -	bond-usdt
+  # -	dai-usd
+  # -	eth-eur
+  # -	gusd-usd
+  # -	loom-usdc
+  # -	msol-usd
+  # -	pols-usd
+  # -	rpl-usd
+  # -	syn-usd
+  # -	wcfg-usdt
+  # -	aave-gbp
+  # -	atom-eur
+  # -	bonk-usd
+  # -	dai-usdc
+  # -	eth-gbp
+  # -	gyen-usd
+  # -	lpt-usd
+  # -	mtl-usd
+  # -	pols-usdt
+  # -	safe-usd
+  # -	t-usd
+  # -	wluna-eur
+  # -	aave-usd
+  # -	atom-gbp
   - btc-eur
-  - btc-gbp
-  - btc-usdt
-  - ada-usd
+  # -	dar-usd
   - eth-usd
-  - sol-usd
-  - dot-usd
-  - xlm-usd
-  - skl-usd
-  - doge-usd
-  - op-usd
-  # - pol-usd
-  - ogn-usd
+  # -	hbar-usd
+  # -	lqty-eur
+  # -	multi-usd
+  # -	poly-usd
+  # -	sand-usd
+  # -	tia-usd
+  # -	wluna-gbp
+  # -	abt-usd
+  # -	atom-usd
+  - btc-gbp
+  # -	dash-btc
+  # -	eth-usdc
+  # -	hbar-usdt
+  # -	lqty-usd
+  # -	musd-usd
+  # -	poly-usdt
+  # -	sand-usdt
+  # -	time-usd
+  # -	wluna-usd
+  # -	ach-usd
+  # -	atom-usdt
+  - btc-usd
   - dash-usd
-  - algo-usd
+  # -	eth-usdt
+  # -	hft-usd
+  # -	lqty-usdt
+  # -	muse-usd
+  # -	pond-usd
+  # -	sd-usd
+  # -	time-usdt
+  # -	wluna-usdt
+  # -	ach-usdt
+  # -	auction-eur
+  # -	ddx-eur
+  # -	eurc-eur
+  # -	hft-usdt
+  # -	lrc-btc
+  # -	mxc-usd
+  # -	pond-usdt
+  # -	seam-usd
+  # -	tnsr-usd
+  # -	xcn-usd
+  # -	acs-usd
+  # -	auction-usd
+  # -	ddx-usd
+  # -	eurc-usd
+  # -	high-usd
+  # -	lrc-usd
+  # -	nct-eur
+  # -	powr-eur
+  # -	sei-usd
+  # -	tone-usd
+  # -	xcn-usdt
+  # -	acx-usd
+  # -	auction-usdt
+  # -	btc-usdc
+  # -	ddx-usdt
+  # -	eurc-usdc
+  # -	hnt-usd
+  # -	lrc-usdt
+  # -	nct-usd
+  # -	powr-usd
+  # -	shdw-usd
+  # -	trac-eur
+  # -	xlm-btc
+  # -	ada-btc
+  # -	audio-usd
+  - btc-usdt
+  # -	deso-eur
+  # -	farm-usd
+  # -	honey-usd
+  # -	lrds-usd
+  # -	nct-usdt
+  # -	powr-usdt
+  # -	shib-eur
+  # -	trac-usd
+  # -	xlm-eur
+  # -	ada-eth
+  # -	aurora-usd
+  # -	btrst-btc
+  # -	deso-usd
+  # -	farm-usdt
+  # -	hopr-usd
+  # -	lseth-eth
+  # -	near-usd
+  # -	prime-usd
+  # -	shib-gbp
+  # -	trac-usdt
+  - xlm-usd
+  # -	ada-eur
+  # -	avax-btc
+  # -	btrst-eur
+  # -	deso-usdt
+  # -	fet-usd
+  # -	hopr-usdt
+  # -	lseth-usd
+  # -	near-usdt
+  # -	pro-usd
+  # -	shib-usd
+  # -	trb-btc
+  # -	xlm-usdt
+  # -	ada-gbp
+  # -	avax-eur
+  # -	btrst-gbp
+  # -	dext-usd
+  # -	fet-usdt
+  # -	icp-btc
+  # -	ltc-btc
+  # -	neon-usd
+  # -	prq-usd
+  # -	shib-usdt
+  # -	trb-usd
+  # -	xrp-btc
+  - ada-usd
+  # -	avax-usd
+  # -	btrst-usd
+  # -	dia-eur
+  # -	fida-eur
+  # -	icp-eur
+  # -	ltc-eur
+  # -	nest-usd
+  # -	prq-usdt
+  # -	shping-eur
+  # -	tribe-usd
+  # -	xrp-eur
+  # -	ada-usdc
+  # -	avax-usdt
+  # -	btrst-usdt
+  # -	dia-usd
+  # -	fida-usd
+  # -	icp-gbp
+  # -	ltc-gbp
+  # -	nest-usdt
+  # -	pundix-usd
+  # -	shping-usd
+  # -	tru-btc
+  # -	xrp-gbp
+  # -	ada-usdt
+  # -	avt-usd
+  # -	busd-usd
+  # -	dia-usdt
+  # -	fida-usdt
+  # -	icp-usd
+  # -	ltc-usd
+  # -	nkn-btc
+  # -	pyr-usd
+  # -	shping-usdt
+  # -	tru-eur
+  # -	xrp-usd
+  # -	aergo-usd
+  # -	axl-usd
+  # -	c98-usd
+  # -	dimo-usd
+  # -	fil-btc
+  # -	icp-usdt
+  # -	magic-usd
+  # -	nkn-eur
+  # -	pyusd-usd
+  # -	skl-btc
+  # -	tru-usd
+  # -	xrp-usdt
+  # -	aero-usd
+  # -	axs-btc
+  # -	c98-usdt
+  # -	dnt-usd
+  # -	fil-eur
+  # -	idex-usd
+  # -	mana-btc
+  # -	nkn-gbp
+  # -	qi-usd
+  # -	skl-eur
+  # -	tru-usdt
+  # -	xtz-btc
+  # -	agld-usd
+  # -	axs-eur
+  # -	cbeth-eth
+  # -	dnt-usdc
+  # -	fil-gbp
+  # -	idex-usdt
+  # -	mana-eth
+  # -	nkn-usd
+  # -	qnt-usd
+  # -	skl-gbp
+  # -	tvk-usd
+  # -	xtz-eur
+  # -	agld-usdt
+  # -	axs-usd
+  # -	cbeth-usd
+  # -	doge-btc
+  # -	fil-usd
+  # -	ilv-usd
+  # -	mana-eur
+  # -	nmr-btc
+  # -	qnt-usdt
+  - skl-usd
+  # -	uma-btc
+  # -	xtz-gbp
+  # -	aioz-usd
+  # -	axs-usdt
+  # -	celr-usd
+  # -	doge-eur
+  # -	fis-usd
+  # -	imx-usd
+  # -	mana-usd
+  # -	nmr-eur
+  # -	qsp-usd
+  # -	snt-usd
+  # -	uma-eur
   - xtz-usd
-availableIntervals: &intervals
+  # -	aioz-usdt
+  # -	badger-eur
+  # -	cgld-btc
+  # -	doge-gbp
+  # -	fis-usdt
+  # -	imx-usdt
+  # -	mana-usdc
+  # -	nmr-gbp
+  # -	qsp-usdt
+  # -	snx-btc
+  # -	uma-gbp
+  # -	xyo-btc
+  # -	akt-usd
+  # -	badger-usd
+  # -	cgld-eur
+  - doge-usd
+  # -	flow-usd
+  # -	index-usd
+  # -	mask-eur
+  # -	nmr-usd
+  # -	quick-usd
+  # -	snx-eur
+  # -	uma-usd
+  # -	xyo-eur
+  # -	alcx-eur
+  # -	badger-usdt
+  # -	cgld-gbp
+  # -	doge-usdt
+  # -	flow-usdt
+  # -	index-usdt
+  # -	mask-gbp
+  # -	nu-btc
+  # -	rad-btc
+  # -	snx-gbp
+  # -	unfi-usd
+  # -	xyo-usd
+  # -	alcx-usd
+  # -	bal-btc
+  # -	cgld-usd
+  # -	dot-btc
+  # -	flr-usd
+  # -	inj-usd
+  # -	mask-usd
+  # -	nu-eur
+  # -	rad-eur
+  # -	snx-usd
+  # -	uni-btc
+  # -	xyo-usdt
+  # -	alcx-usdt
+  # -	bal-usd
+  # -	chz-eur
+  # -	dot-eur
+  # -	fort-usd
+  # -	inv-usd
+  # -	mask-usdt
+  # -	nu-gbp
+  # -	rad-gbp
+  # -	sol-btc
+  # -	uni-eur
+  # -	yfi-btc
+  # -	aleph-usd
+  # -	band-btc
+  # -	chz-gbp
+  # -	dot-gbp
+  # -	fort-usdt
+  # -	iotx-eur
+  # -	math-usd
+  # -	nu-usd
+  # -	rad-usd
+  # -	sol-eth
+  # -	uni-gbp
+  # -	yfi-usd
+  # -	algo-btc
+  # -	band-eur
+  # -	chz-usd
+  - dot-usd
+  # -	forth-btc
+  # -	iotx-usd
+  # -	math-usdt
+  # -	ocean-usd
+  # -	rad-usdt
+  # -	sol-eur
+  # -	uni-usd
+  # -	yfii-usd
+  # -	algo-eur
+  # -	band-gbp
+  # -	chz-usdt
+  # -	dot-usdt
+  # -	forth-eur
+  # -	jasmy-usd
+  # -	matic-btc
+  # -	ogn-btc
+  # -	rai-usd
+  # -	sol-gbp
+  # -	upi-usd
+  # -	zec-btc
+  # -	algo-gbp
+  # -	band-usd
+  # -	clv-eur
+  # -	drep-usd
+  # -	forth-gbp
+  # -	jasmy-usdt
+  # -	matic-eur
+  - ogn-usd
+  # -	rare-usd
+  - sol-usd
+  # -	upi-usdt
+  # -	zec-usd
+  - algo-usd
+  # -	bat-btc
+  # -	clv-gbp
+  # -	drep-usdt
+  # -	forth-usd
+  # -	jto-usd
+  # -	matic-gbp
+  # -	omg-btc
+  # -	rari-usd
+  # -	sol-usdt
+  # -	usdc-eur
+  # -	zec-usdc
+  # -	alice-usd
+  # -	bat-eth
+  # -	clv-usd
+  # -	drift-usd
+  # -	fox-usd
+  # -	jup-usd
+  # -	matic-usd
+  # -	omg-eur
+  # -	rbn-usd
+  # -	spa-usd
+  # -	usdc-gbp
+  # -	zen-btc
+  # -	amp-usd
+  # -	bat-eur
+  # -	clv-usdt
+  # -	dyp-usd
+  # -	fox-usdt
+  # -	karrat-usd
+  # -	matic-usdt
+  # -	omg-gbp
+  # -	ren-btc
+  # -	spell-usd
+  # -	usdt-eur
+  # -	zen-usd
+  # -	ankr-btc
+  # -	bat-usd
+  # -	comp-btc
+  # -	dyp-usdt
+  # -	fx-usd
+  # -	kava-usd
+  # -	mco2-usd
+  # -	omg-usd
+  # -	ren-usd
+  # -	spell-usdt
+  # -	usdt-gbp
+  # -	zen-usdt
+  # -	ankr-eur
+  # -	bat-usdc
+  # -	comp-usd
+  # -	egld-usd
+  # -	g-usd
+  # -	keep-usd
+  # -	mco2-usdt
+  # -	omni-usd
+  # -	render-usd
+  # -	stg-usd
+  # -	usdt-usd
+  # -	zeta-usd
+  # -	ankr-gbp
+  # -	bch-btc
+  # -	corechain-usd
+  # -	ela-usd
+  # -	gal-usd
+  # -	knc-btc
+  # -	mdt-usd
+  # -	ondo-usd
+  # -	rep-btc
+  # -	stg-usdt
+  # -	usdt-usdc
+  # -	zro-usd
+  # -	ankr-usd
+  # -	bch-eur
+  # -	coti-usd
+  # -	ela-usdt
+  # -	gal-usdt
+  # -	knc-usd
+  # -	mdt-usdt
+  # -	ooki-usd
+  # -	rep-usd
+  # -	storj-btc
+  # -	ust-eur
+  # -	zrx-btc
+  # -	ant-usd
+  # -	bch-gbp
+  # -	coval-usd
+  # -	enj-btc
+  # -	gala-eur
+  # -	krl-eur
+  # -	media-usd
+  - op-usd
+  # -	req-btc
+  # -	storj-usd
+  # -	ust-usd
+  # -	zrx-eur
+  # -	ape-eur
+  # -	bch-usd
+  # -	coval-usdt
+  # -	enj-usd
+  # -	gala-usd
+  # -	krl-usd
+  # -	media-usdt
+  # -	op-usdt
+  # -	req-eur
+  # -	strk-usd
+  # -	ust-usdt
+  # -	zrx-usd
+  # -	ape-usd
+  # -	bico-eur
+  # -	cro-eur
+  # -	enj-usdt
+  # -	gala-usdt
+  # -	krl-usdt
+  # -	metis-usd
+  # -	orca-usd
+  # -	req-gbp
+  # -	stx-usd
+  # -	vara-usd
+  # -	ape-usdt
+  # -	bico-usd
+  # -	cro-usd
+  # -	ens-eur
+  # -	gfi-usd
+  # -	ksm-usd
+  # -	metis-usdt
+  # -	orn-btc
+  # -	req-usd
+  # -	stx-usdt
+  # -	velo-usd
+  # -	api3-usd
+  # -	bico-usdt
+  # -	cro-usdt
+  # -	ens-usd
+  # -	ghst-usd
+  # -	ksm-usdt
+  # -	mina-eur
+  # -	orn-usd
+  # -	req-usdt
+  # -	sui-usd
+  # -	vet-usd
+  # -	api3-usdt
+  # -	bigtime-usd
+  # -	crpt-usd
+  # -	ens-usdt
+  # -	glm-usd
+  # -	lcx-eur
+  # -	mina-usd
+  # -	orn-usdt
+  # -	rgt-usd
+  # -	suku-eur
+  # -	vgx-eur
+  # -	apt-usd
+  # -	bit-usd
+  # -	crv-btc
+  # -	eos-btc
+  # -	gmt-usd
+  # -	lcx-usd
+  # -	mina-usdt
+  # -	osmo-usd
+  # -	rlc-btc
+  # -	suku-usd
+  # -	vgx-usd
+  # -	apt-usdt
+  # -	bit-usdt
+  # -	crv-eur
+  # -	eos-eur
+  # -	gmt-usdt
+  # -	lcx-usdt
+  # -	mir-btc
+  # -	oxt-usd
+  # -	rlc-usd
+  # -	suku-usdt
+  # -	vgx-usdt
+  # -	arb-usd
+  # -	blast-usd
+  # -	crv-gbp
+  # -	eos-usd
+  # -	gno-usd
+  # -	ldo-usd
+  # -	mir-eur
+  # -	pax-usd
+  # -	rly-eur
+  # -	super-usd
+  # -	voxel-usd
+  # -	arkm-usd
+  # -	blur-usd
+  # -	crv-usd
+  # -	ern-eur
+  # -	gno-usdt
+  # -	link-btc
+  # -	mir-gbp
+  # -	pax-usdt
+  # -	rly-gbp
+  # -	super-usdt
+  # -	vtho-usd
+  # -	arpa-eur
+  # -	blz-usd
+  # -	ctsi-btc
+  # -	ern-usd
+  # -	gnt-usdc
+  # -	link-eth
+  # -	mir-usd
+  # -	perp-eur
+  # -	rly-usd
+  # -	sushi-btc
+  # -	wampl-usd
+availableFullIntervals: &fullIntervals
+  - 1d
+  - 1m
+  - 1y
+availablePartialIntervals: &partialIntervals
   - 1d
 availableFormats: &formats
   - csv
   - json
 paths:
+  '/{interval}.{format}':
+    parameters:
+      - in: path
+        name: interval
+        required: true
+        schema:
+          type: string
+          enum: *fullIntervals
+      - in: path
+        name: format
+        required: true
+        schema:
+          type: string
+          enum: *formats
+    get:
+      tags:
+        - List
+      summary: yields a list of available tickers and the last ohlcv data by interval, and format.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+            text/csv: {}
   '/{ticker}/{interval}.{format}':
     parameters:
       - in: path
@@ -50,10 +700,7 @@ paths:
         required: true
         schema:
           type: string
-          enum:
-            - 1d
-            - 1m
-            - 1y
+          enum: *fullIntervals
       - in: path
         name: format
         required: true
@@ -63,31 +710,13 @@ paths:
     get:
       tags:
         - Full
-      summary: Get financial data
+      summary: yields ohlcv data for any valid ticker, interval, and format.
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-            text/csv:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    date:
-                      type: string
-                      format: date
-                    open:
-                      type: number
-                    high:
-                      type: number
-                    low:
-                      type: number
-                    close:
-                      type: number
-                    volume:
-                      type: number
+            text/csv: {}
   '/{ticker}/{year}/{interval}.{format}':
     parameters:
       - in: path
@@ -107,7 +736,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: *intervals
+          enum: *partialIntervals
       - in: path
         name: format
         required: true
@@ -117,6 +746,7 @@ paths:
     get:
       tags:
         - Partial
+      summary: yields ohlcv data for any valid ticker, year, interval, and format.
       responses:
         '200':
           description: Successful response
@@ -147,7 +777,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: *intervals
+          enum: *partialIntervals
       - in: path
         name: format
         required: true
@@ -157,6 +787,7 @@ paths:
     get:
       tags:
         - Partial
+      summary: yields ohlcv data for any valid ticker, year, month, interval, and format.
       responses:
         '200':
           description: Successful response
@@ -192,7 +823,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: *intervals
+          enum: *partialIntervals
       - in: path
         name: format
         required: true
@@ -202,6 +833,7 @@ paths:
     get:
       tags:
         - Partial
+      summary: yields ohlcv data for any valid ticker, year, month, day, interval, and format.
       responses:
         '200':
           description: Successful response
