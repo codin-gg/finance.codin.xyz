@@ -4,6 +4,7 @@ import { createReadStream, createWriteStream } from 'node:fs'
 import { readCache, allOf, byExchange, byTickers, byInterval, readLastCachedJsonLineOf } from '../lib/cache.mjs'
 import { availableTickers } from '../openapi.mjs'
 import { writeCsv, writeJson } from '../lib/jsonl.mjs'
+import { isoDateReplacer } from '../lib/date.mjs'
 
 console.log('[bin/build-coinbase-shallow] OpenAPI.availableTickers:', availableTickers)
 console.log('[bin/build-coinbase-shallow] Date.toJSON:', new Date().toJSON())
@@ -11,10 +12,10 @@ console.log('[bin/build-coinbase-shallow] Date.getTimezoneOffset:', new Date().g
 
 for (const interval of ['1y', '1m'/*, '1w' */, '1d']) {
   console.time(`[bin/build-coinbase-shallow] Write: www/api/${interval}.csv`)
-  const latestCsvWriter = writeCsv(['ticker', 'date', 'open', 'high', 'low', 'close', 'volume'])
+  const latestCsvWriter = writeCsv(['ticker', 'date', 'open', 'high', 'low', 'close', 'volume'], { objectMode: true, replacer: isoDateReplacer })
 
   console.time(`[bin/build-coinbase-shallow] Write: www/api/${interval}.json`)
-  const latestJsonWriter = writeJson()
+  const latestJsonWriter = writeJson({ objectMode: true, replacer: isoDateReplacer })
 
   for (const file of await readCache(allOf(byExchange('coinbase'), byTickers(availableTickers), byInterval(interval)))) {
     console.log('[bin/build-coinbase-shallow] Loading: %s', file)
