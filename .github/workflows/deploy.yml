@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy
 on:
   workflow_dispatch:
   workflow_run:
@@ -39,6 +39,7 @@ jobs:
           key: ${{ steps.cache.outputs.cache-primary-key }}
       - run: npm run build-coinbase-intervals
       - run: npm run build-coinbase
+      - run: npm run build-coinbase-shallow
       - run: npm run build-coinbase-history
       - run: npm run build-sitemap
       - uses: actions/configure-pages@v4

@@ -3,14 +3,11 @@
 *todo.md
 coverage
 node_modules
-www/api/*/
-!www/api/openapi.yml
-www/api/.DS_Store
-www/api/latest.csv
-www/api/latest.json
 www/sitemap.xml
+www/api/
+!www/api/openapi.yml
 
-data/*
+data/
 !data/*,*,1d.jsonl
 
 # fixme: remove those from repo
