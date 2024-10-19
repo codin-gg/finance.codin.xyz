@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Noop
-        run: echo "This is a dummy job to trigger the deployment workflow."
+        run: date # This is a dummy step to trigger deployments

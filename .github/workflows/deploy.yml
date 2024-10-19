@@ -2,7 +2,7 @@ name: Deploy
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: [Tests, Schedule]
+    workflows: [Test, Schedule]
     types: [completed]
     branches: [main]
 permissions:
