@@ -679,7 +679,7 @@ paths:
     get:
       tags:
         - List
-      summary: yields a list of available tickers and the last ohlcv data by interval, and format.
+      summary: yields a list of available tickers and the most recent ohlcv data by interval, and format.
       responses:
         '200':
           description: Successful response
