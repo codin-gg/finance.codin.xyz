@@ -1,7 +1,7 @@
 # finance.codin.xyz 📈
 An open-source cryptocurrency data service, with daily-updated data in multiple formats. Accessible, developer-friendly, and Google Sheets and RSS reader-friendly.
 
-[![GitHub Status](https://img.shields.io/github/actions/workflow/status/codin-gg/finance.codin.xyz/tests.yml?style=for-the-badge&colorB=44CC11)](https://github.com/codin-gg/finance.codin.xyz/actions/workflows/tests.yml) [![Dependencies](https://img.shields.io/badge/dependencies-1-blue.svg?style=for-the-badge&colorB=44CC11)](https://github.com/codin-gg/finance.codin.xyz/blob/main/package.json) [![Coverage Status](https://img.shields.io/coveralls/codin-gg/finance.codin.xyz.svg?style=for-the-badge)](https://coveralls.io/github/codin-gg/finance.codin.xyz?branch=main) [![Linter](https://img.shields.io/badge/coding%20style-standard-brightgreen.svg?style=for-the-badge)](http://standardjs.com/)
+[![GitHub Status](https://img.shields.io/github/actions/workflow/status/codin-gg/finance.codin.xyz/test.yml?style=for-the-badge&colorB=44CC11)](https://github.com/codin-gg/finance.codin.xyz/actions/workflows/tests.yml) [![Dependencies](https://img.shields.io/badge/dependencies-1-blue.svg?style=for-the-badge&colorB=44CC11)](https://github.com/codin-gg/finance.codin.xyz/blob/main/package.json) [![Coverage Status](https://img.shields.io/coveralls/codin-gg/finance.codin.xyz.svg?style=for-the-badge)](https://coveralls.io/github/codin-gg/finance.codin.xyz?branch=main) [![Linter](https://img.shields.io/badge/coding%20style-standard-brightgreen.svg?style=for-the-badge)](http://standardjs.com/)
 
 [![node](https://img.shields.io/badge/node-20%2B-blue.svg?style=for-the-badge)](https://nodejs.org/docs) [![npm](https://img.shields.io/badge/node-10%2B-blue.svg?style=for-the-badge)](https://nodejs.org/docs) [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge&colorB=007EC6)](https://spdx.org/licenses/MIT)
 
@@ -21,7 +21,8 @@ Consider having https://finance.codin.xyz as main project but then also link the
 -->
 
 ## Currently supported routes
-- [x] `/api/{id}/{interval:1d,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
+- [-] `/api/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
+- [-] `/api/{id}/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
 - [x] `/api/{id}/{year?}/{month?}/{day?}/{interval:1d}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
 
 ## Donations 🙏
