@@ -21,9 +21,9 @@ Consider having https://finance.codin.xyz as main project but then also link the
 -->
 
 ## Currently supported routes
-- [-] `/api/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
-- [-] `/api/{id}/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
-- [x] `/api/{id}/{year?}/{month?}/{day?}/{interval:1d}.{format:json,csv} → [[{date}, {open}, {high}, {low}, {close}, {volume}], ...]`
+- [-] `/api/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{ticker},{date},{open},{high},{low},{close},{volume}], ...]`
+- [-] `/api/{id}/{interval:1d,1w,1m,1y}.{format:json,csv} → [[{date},{open},{high},{low},{close},{volume}], ...]`
+- [x] `/api/{id}/{year?}/{month?}/{day?}/{interval:1d}.{format:json,csv} → [[{date},{open},{high},{low},{close},{volume}], ...]`
 
 ## Donations 🙏
 - **BTC:** bc1qp8v7qleltzas46h3zmsw0epflmkks5v3c3f0cq <!-- codin.x -->
